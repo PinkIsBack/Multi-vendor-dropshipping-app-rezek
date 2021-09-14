@@ -1,0 +1,136 @@
+div.tagsinput span.tag {
+    padding: 2px 5px;
+    height: 22px;
+    line-height: 18px;
+    color: #fff;
+    background-color: #673AB6;
+    border: none;
+    -webkit-border-radius: 4px;
+}
+div.tagsinput {
+    width: 100%;
+    height: calc(1.5em + 0.75rem + 2px);
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    border-radius: 0.25rem;
+}
+.accordion .card-header:after {
+    display: none;
+}
+.dropzone.dz-clickable {
+    border-radius: 5px;
+    border-color: #CED4D9;
+}
+.dropzone.dz-clickable div.dz-message span{
+   color: #B3B3B3;
+}
+
+.overlay-container {
+    position: relative
+}
+
+.overlay-item {
+    position: absolute;
+    display: inline-block;
+    top: 0;
+    right: 0;
+    line-height: 1
+}
+
+.overlay-left .overlay-item {
+    right: auto;
+    left: 0
+}
+
+.overlay-bottom .overlay-item {
+    top: auto;
+    bottom: 0
+}
+
+.overlay-center .overlay-item {
+    top: 50%;
+    right: 50%;
+    -webkit-transform: translateX(50%) translateY(-50%);
+    transform: translateX(50%) translateY(-50%)
+}
+
+.options-container {
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    display: block
+}
+
+.options-container .options-item {
+    transition: -webkit-transform .25s ease-out;
+    transition: transform .25s ease-out;
+    transition: transform .25s ease-out, -webkit-transform .25s ease-out;
+    will-change: transform
+}
+
+.options-container .options-overlay {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -ms-flex-align: center;
+    align-items: center;
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    bottom: -2px;
+    left: -2px;
+    z-index: 2;
+    content: '';
+    opacity: 0;
+    visibility: hidden;
+    transition: all .3s ease-in;
+    will-change: opacity, transform
+}
+
+.options-container .options-overlay-content {
+    text-align: center
+}
+.js-table-sections-header+tbody {
+    display: none;
+}
+.options-container:hover .options-overlay {
+    opacity: 1;
+    visibility: visible;
+    background-color: rgba(0,0,0,.75)!important;
+}
+
+@media (max-width: 767.98px) {
+    .options-container .options-overlay {
+        display: none
+    }
+
+    .options-container .options-overlay:hover .options-overlay {
+        display: block
+    }
+}
+
+/*Summernote*/
+.note-editable.card-block{
+    height: 200px;
+}
+.badge{
+    border-radius: 1.25rem;
+}
+.admin_status_btn .bx-caret-down {
+    opacity: 0;
+}
+.admin_status_btn:hover .bx-caret-down {
+    opacity: 1;
+}
+button.swal2-confirm {
+    background-color: #6337B1 !important;
+}
+.img-avatar {
+    display: inline-block !important;
+    width: 70px !important;
+    height: 70px !important;
+    border-radius: 0;
+}
