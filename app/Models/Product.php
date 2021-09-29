@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Faker\Core\Number;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -32,5 +33,8 @@ class Product extends Model
     }
     public function imported_product(){
         return $this->hasOne('App\Models\MerchantProduct','linked_product_id', 'id');
+    }
+    public function getCPriceAttribute(){
+        return $this->price + ($this->price * (Setting::first()->margin)/100);
     }
 }

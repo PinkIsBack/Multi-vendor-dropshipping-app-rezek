@@ -56,9 +56,10 @@
                                     <th></th>
                                     <th>Name</th>
                                     <th>Fulfilled By</th>
+                                    <th>Supplier</th>
+                                    <th>Supplier price</th>
                                     <th>Cost</th>
-                                    <th>Sold Price</th>
-                                    <th>Status</th>
+                                    <th>Supplier Status</th>
                                     <th>Stock Status</th>
                                 </tr>
                                 </thead>
@@ -127,18 +128,21 @@
                                                     <span class="badge badge-primary"> {{$item->fulfilled_by}} </span>
                                                 @endif
                                             </td>
-
-                                            <td>{{ \App\Helpers\AppHelper::currency() }}{{number_format($item->cost,2)}}  * {{$item->quantity}}</td>
-                                            <td>{{ \App\Helpers\AppHelper::currency() }}{{$item->price}} * {{$item->quantity}} </td>
                                             <td>
-                                                @if($item->fulfillment_status == null)
-                                                    <span class="badge badge-warning text-white"> Unfulfilled</span>
-                                                @elseif($item->fulfillment_status == 'partially-fulfilled')
-                                                    <span class="badge badge-danger"> Partially Fulfilled</span>
-                                                @else
-                                                    <span class="badge badge-success"> Fulfilled</span>
-                                                @endif
+                                                {{$item->supplier->name}}
                                             </td>
+                                            <td>{{ \App\Helpers\AppHelper::currency() }}{{number_format($item->supplier_price,2)}}  * {{$item->quantity}}</td>
+                                            <td>{{ \App\Helpers\AppHelper::currency() }}{{number_format($item->cost,2)}}  * {{$item->quantity}}</td>
+                                          <td>
+                                              @if($item->is_supplier_fulfill == 0)
+                                                  <span class="badge badge-warning text-white"> Unfulfilled</span>
+                                                @else
+                                                  <span class="badge badge-success"> Fulfilled</span>
+                                              @endif
+
+                                          </td>
+
+
                                             <td>
                                                 @php
                                                     $out_of_stock = false;
@@ -182,54 +186,51 @@
                                     Subtotal ({{count($order->line_items)}} items)
                                 </td>
                                 <td align="right">
-                                   {{ \App\Helpers\AppHelper::currency() }} {{number_format($order->cost_to_pay,2)}}
+                                    {{ \App\Helpers\AppHelper::currency() }} {{number_format($order->cost_to_pay,2)}}
                                 </td>
                             </tr>
                             <tr>
                                 <td>
                                     Shipping Price
                                 </td>
-                                <td align="right" class="shipping_price_text">
-                                   {{ \App\Helpers\AppHelper::currency() }} {{ number_format($order->shipping_price,2) }}
+                                <td align="right">
+                                    {{ \App\Helpers\AppHelper::currency() }} {{number_format($order->shipping_price,2)}}
                                 </td>
                             </tr>
-
                             <tr>
                                 <td>
-                                    Total Cost @if($order->paid == 0) to Pay @endif
+                                    Total Cost
                                 </td>
-                                <td align="right" class="total">
+                                <td align="right">
                                     {{number_format($order->cost_to_pay + $order->shipping_price  ,2)}} USD
                                 </td>
                             </tr>
                             <tr>
-                                <td ></td>
-                                <td align="right" >
-                                    @if($order->paid == 0)
-                                    <form action="https://www.payfast.co.za/eng/process" method="post">
-                                        <input type="hidden" name="merchant_id" value="18424387">
-                                        <input type="hidden" name="merchant_key" value="99ejkvmqtsoq9">
-                                        <input type="hidden" name="amount" value="{{$order->cost_to_pay + $order->shipping_price}}">
-                                        <input type="hidden" name="item_name" value="{{$order->name}}">
-                                        <input type="hidden" name="return_url" value="{{route('store.payfast.pay.success',$order->id)}}">
-                                        <input type="hidden" name="cancel_url" value="{{route('store.order.detail',$order->id)}}">
-                                        <a href="{{route('store.payfast.pay.success',$order->id)}}" class="btn btn-primary">Pay Now</a>
-{{--                                        <button class="btn btn-primary">Pay Now</button>--}}
-                                    </form>
-                                    @else
-                                        <button class="btn btn-primary" disabled>Paid</button>
-                                    @endif
+                                <td>
+                                    Commission
+                                </td>
+                                <td align="right">
+                                  -  {{ \App\Helpers\AppHelper::currency() }} {{number_format($order->commission,2)}}
                                 </td>
                             </tr>
+                            <tr>
+                                <td>
+                                    Pay to Supplier
+                                </td>
+                                <td align="right" class="shipping_price_text">
+                                   {{ \App\Helpers\AppHelper::currency() }} {{ number_format($order->cost_to_pay + $order->shipping_price - $order->commission ,2) }}
+                                </td>
+                            </tr>
+
+
                             </tbody>
                         </table>
                 </div>
             </div>
+            {{--            Logs--}}
 
-{{--            Logs--}}
-
-@include('inc.order_logs')
-{{--            End Logs--}}
+            @include('inc.order_logs')
+            {{--            End Logs--}}
 
         </div>
         <div class="col-md-3">

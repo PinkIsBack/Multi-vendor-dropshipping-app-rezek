@@ -6,7 +6,6 @@
         </div>
     </div>
     @include('layouts.flash_message')
-
     <div class="row">
         <div class="col-md-9">
             <div class="card radius-15">
@@ -25,25 +24,7 @@
                                 <span class="badge badge-danger"> Refunded</span>
                             @endif
 
-                            @if($order->status == 'Paid')
-                                <span class="badge badge-warning text-white"> Unfulfilled</span>
-                            @elseif($order->status == 'unfulfilled')
-                                <span class="badge badge-warning text-white"> {{ucfirst($order->status)}}</span>
-                            @elseif($order->status == 'partially-shipped')
-                                <span class="badge " style="background: darkolivegreen;color: white;"> {{ucfirst($order->status)}}</span>
-                            @elseif($order->status == 'shipped')
-                                <span class="badge " style="background: orange;color: white;"> {{ucfirst($order->status)}}</span>
-                            @elseif($order->status == 'delivered')
-                                <span class="badge " style="background: deeppink;color: white;"> {{ucfirst($order->status)}}</span>
-                            @elseif($order->status == 'completed')
-                                <span class="badge " style="background: darkslategray;color: white;"> {{ucfirst($order->status)}}</span>
-                            @elseif($order->status == 'new')
-                                <span class="badge badge-warning text-white"> Draft </span>
-                            @elseif($order->status == 'cancelled')
-                                <span class="badge badge-warning text-white"> {{ucfirst($order->status)}} </span>
-                            @else
-                                <span class="badge badge-success">  {{ucfirst($order->status)}} </span>
-                            @endif
+
                     </div>
                     </div>
                 </div>
@@ -57,7 +38,6 @@
                                     <th>Name</th>
                                     <th>Fulfilled By</th>
                                     <th>Cost</th>
-                                    <th>Sold Price</th>
                                     <th>Status</th>
                                     <th>Stock Status</th>
                                 </tr>
@@ -66,11 +46,11 @@
                                 @php
                                     $total_discount = 0;
                                     $is_monthly_discount = false;
-                                    $n = $order->line_items->where('fulfilled_by', '!=', 'store')->sum('quantity');
-                                    $line_item_count = count($order->line_items);
+                                    $n = $order->supplier_line_item->where('fulfilled_by', '!=', 'store')->sum('quantity');
+                                    $line_item_count = count($order->supplier_line_item);
                                 @endphp
 
-                                @foreach($order->line_items as $item)
+                                @foreach($order->supplier_line_item as $item)
                                     @if($item->fulfilled_by != 'store')
                                         <tr>
                                             <td>
@@ -128,13 +108,11 @@
                                                 @endif
                                             </td>
 
-                                            <td>{{ \App\Helpers\AppHelper::currency() }}{{number_format($item->cost,2)}}  * {{$item->quantity}}</td>
-                                            <td>{{ \App\Helpers\AppHelper::currency() }}{{$item->price}} * {{$item->quantity}} </td>
+                                            <td>{{ \App\Helpers\AppHelper::currency() }}{{number_format($item->supplier_price,2)}}  * {{$item->quantity}}</td>
                                             <td>
-                                                @if($item->fulfillment_status == null)
+                                                @if($item->is_supplier_fulfill == 0)
                                                     <span class="badge badge-warning text-white"> Unfulfilled</span>
-                                                @elseif($item->fulfillment_status == 'partially-fulfilled')
-                                                    <span class="badge badge-danger"> Partially Fulfilled</span>
+
                                                 @else
                                                     <span class="badge badge-success"> Fulfilled</span>
                                                 @endif
@@ -176,61 +154,139 @@
                 </div>
                 <div class="card-body">
                     <table class="table table-borderless table-hover">
-                            <tbody class="js-warehouse-shipping">
-                            <tr>
-                                <td>
-                                    Subtotal ({{count($order->line_items)}} items)
-                                </td>
-                                <td align="right">
-                                   {{ \App\Helpers\AppHelper::currency() }} {{number_format($order->cost_to_pay,2)}}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Shipping Price
-                                </td>
-                                <td align="right" class="shipping_price_text">
-                                   {{ \App\Helpers\AppHelper::currency() }} {{ number_format($order->shipping_price,2) }}
-                                </td>
-                            </tr>
+                        <tbody class="js-warehouse-shipping">
+                        <tr>
+                            <td>
+                                Subtotal ({{count($order->supplier_line_item)}} items)
+                            </td>
+                            <td align="right">
+                                {{ \App\Helpers\AppHelper::currency() }} {{number_format($order->supplier_pay,2)}}
+                            </td>
+                        </tr>
 
-                            <tr>
-                                <td>
-                                    Total Cost @if($order->paid == 0) to Pay @endif
-                                </td>
-                                <td align="right" class="total">
-                                    {{number_format($order->cost_to_pay + $order->shipping_price  ,2)}} USD
-                                </td>
-                            </tr>
-                            <tr>
-                                <td ></td>
-                                <td align="right" >
-                                    @if($order->paid == 0)
-                                    <form action="https://www.payfast.co.za/eng/process" method="post">
-                                        <input type="hidden" name="merchant_id" value="18424387">
-                                        <input type="hidden" name="merchant_key" value="99ejkvmqtsoq9">
-                                        <input type="hidden" name="amount" value="{{$order->cost_to_pay + $order->shipping_price}}">
-                                        <input type="hidden" name="item_name" value="{{$order->name}}">
-                                        <input type="hidden" name="return_url" value="{{route('store.payfast.pay.success',$order->id)}}">
-                                        <input type="hidden" name="cancel_url" value="{{route('store.order.detail',$order->id)}}">
-                                        <a href="{{route('store.payfast.pay.success',$order->id)}}" class="btn btn-primary">Pay Now</a>
-{{--                                        <button class="btn btn-primary">Pay Now</button>--}}
-                                    </form>
-                                    @else
-                                        <button class="btn btn-primary" disabled>Paid</button>
-                                    @endif
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
+
+                        <tr>
+                            <td>
+                                Total Cost @if($order->paid == 0) to Pay @endif
+                            </td>
+                            <td align="right" class="total">
+                                {{number_format($order->supplier_pay   ,2)}} USD
+                            </td>
+                        </tr>
+                        <tr>
+                            <td ></td>
+                            <td align="right" >
+                                @if($order->supplier_line_item->where('is_supplier_fulfill',0)->count() > 0)
+                                    <button  data-toggle="modal" data-target="#trackingmodal" class="btn btn-success" >Mark as Fulfilled</button>
+                                @elseif($order->supplier_tracking->count() == 1 )
+{{--                                        <button class="btn btn-primary" disabled>Tracking Added</button>--}}
+                                @else
+{{--                                    <button type="button" class="btn btn-primary m-2" data-toggle="modal" data-target="#trackingmodal">Add Tracking</button>--}}
+
+                                @endif
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
+            @if($order->supplier_tracking->count() == 1 )
+            <div class="card radius-15">
+                <div class="card-header">
+                    <h6 class="card-title">Tracking</h6>
+                </div>
+                <div class="card-body">
+                    <table class="table table-borderless table-hover">
+                        <tbody class="js-warehouse-shipping">
+                        <tr>
+                            <td>
+                                Courier Name
+                            </td>
+                            <td align="right">
+                                {{$order->supplier_tracking->first()->courier_name }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Tracking Number
+                            </td>
+                            <td align="right">
+                                {{$order->supplier_tracking->first()->number}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Shipping Cost
+                            </td>
+                            <td align="right">
+                                {{$order->supplier_tracking->first()->cost_shipping}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Tracking URL
+                            </td>
+                            <td align="right">
+                                {{$order->supplier_tracking->first()->url}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
 
-{{--            Logs--}}
+                            </td>
+                            <td align="right">
+                                <button type="button" class="btn btn-primary m-2" data-toggle="modal" data-target="#trackingmodaledit">Edit Tracking</button>
+                            </td>
+                        </tr>
 
-@include('inc.order_logs')
-{{--            End Logs--}}
 
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+                <!-- Modal -->
+                <div class="modal fade" id="trackingmodaledit" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Edit Tracking Details</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">	<span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <form action="{{route('supplier.order.tracking.update')}}" method="post">
+                                @csrf
+                                <input type="hidden" value="{{$order->supplier_tracking->first()->id}}" name="id">
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label>Name:</label>
+                                        <input type="text" class="form-control" required name="name" value="{{$order->supplier_tracking->first()->courier_name}}" placeholder="USPS">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Code:</label>
+                                        <input type="text" class="form-control" required name="code" value="{{$order->supplier_tracking->first()->courier_code}}" placeholder="usps">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Number:</label>
+                                        <input type="text" class="form-control" required name="number" value="{{$order->supplier_tracking->first()->number}}" placeholder="292232223332233">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Shipping Cost:</label>
+                                        <input type="text" class="form-control" required name="cost" value="{{$order->supplier_tracking->first()->cost_shipping}}" placeholder="59">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Url:</label>
+                                        <input type="url" class="form-control" required name="url" value="{{$order->supplier_tracking->first()->url}}" placeholder="https://example.com/#">
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            @endif
         </div>
         <div class="col-md-3">
             <div class="card radius-15">
@@ -252,7 +308,7 @@
                     @endphp
                     <div class="card-body">
                         <h6>Customer</h6>
-                        <p style="font-size: 14px">{{$customer->first_name}} {{$customer->last_name}} <br>{{$customer->orders_count}} Orders</p>
+                        <p style="font-size: 14px">{{$customer->first_name}} {{$customer->last_name}} </p>
                         <hr>
                         <h6>Customer Information</h6>
                         <p style="font-size: 14px">{{$customer->email}}<br>{{$customer->phone}}</p>
@@ -286,6 +342,50 @@
                     </div>
                 </div>
             @endif
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="trackingmodal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Tracking Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">	<span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{route('supplier.order.fulfillment.process',$order->id)}}" method="post">
+                    @csrf
+                    <input type="hidden" value="{{$order->id}}" name="order_id">
+                    <input type="hidden" value="{{auth()->user()->id}}" name="supplier_id">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Name:</label>
+                        <input type="text" class="form-control" required name="name" placeholder="USPS">
+                    </div>
+                    <div class="form-group">
+                        <label>Code:</label>
+                        <input type="text" class="form-control" required name="code" placeholder="usps">
+                    </div>
+                    <div class="form-group">
+                        <label>Number:</label>
+                        <input type="text" class="form-control" required name="number" placeholder="292232223332233">
+                    </div>
+                    <div class="form-group">
+                        <label>Shipping Cost:</label>
+                        <input type="text" class="form-control" required name="cost" placeholder="59">
+                    </div>
+                    <div class="form-group">
+                        <label>Url:</label>
+                        <input type="url" class="form-control" required name="url" placeholder="https://example.com/#">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+                </form>
+            </div>
         </div>
     </div>
 @endsection

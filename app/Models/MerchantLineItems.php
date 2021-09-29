@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
-use App\Product;
-use App\ProductVariant;
-use App\RetailerProduct;
-use App\RetailerProductVariant;
-use App\WareHouse;
-use App\WarehouseInventory;
+use App\Models\Product;
+use App\Models\ProductVariant;
+use App\Models\RetailerProduct;
+use App\Models\RetailerProductVariant;
+use App\Models\WareHouse;
+use App\Models\WarehouseInventory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -40,5 +40,12 @@ class MerchantLineItems extends Model
 
     public function linked_dropship_variant(){
         return $this->hasOne(Variant::class,'id','dropship_variant_id');
+    }
+
+    public function supplier(){
+        return $this->hasOne(User::class,'id','supplier_id');
+    }
+    public function product(){
+        return $this->hasOne(Product::class,'id','linked_product_id');
     }
 }

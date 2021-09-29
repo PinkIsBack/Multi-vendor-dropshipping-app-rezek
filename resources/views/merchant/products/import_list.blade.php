@@ -23,6 +23,7 @@
 
         </div>
     </form>
+    <p><b>Note: </b>For johannesburg and pretoria shipping rates are $59. All other locations are $99</p>
     @if(count($products) > 0)
         @foreach($products as $index => $product)
 
@@ -121,43 +122,6 @@
                                     <th>Title</th>
                                     <th>Price</th>
                                     <th>Cost</th>
-                                    <th>
-                                        <a class="calculate_shipping_btn btn btn-sm text-white btn-primary"
-                                           {{--                                                   data-route="{{route('calculate_shipping')}}" data-product="{{$product->linked_product_id}}" --}}
-                                           data-warehouse="{{ 3 }}" data-retailer-product="{{ $product->id }}"
-                                           data-toggle="modal"
-                                           data-target="#shipping_modal_{{$product->id}}">Shipping</a>
-                                    </th>
-                                    <div class="modal fade" id="shipping_modal_{{$product->id}}" tabindex="-1"
-                                         role="dialog" aria-labelledby="modal-block-popout" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-popout" role="document">
-                                            <div class="modal-content">
-                                                <div class="block block-themed block-transparent mb-0">
-                                                    <div class="block-header bg-primary-dark">
-                                                        <h3 class="block-title">Calculate Shipping Zone</h3>
-                                                        <div class="block-options">
-                                                            <button type="button" class="btn-block-option">
-                                                                <i class="fa fa-fw fa-times" data-dismiss="modal"
-                                                                   aria-label="Close"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                    <div class="block-content font-size-sm">
-                                                        <div class="text-center loader-div p-2">
-                                                            <h5>Calculating Shipping Price....</h5>
-                                                            <img
-                                                                data-src="https://i.ya-webdesign.com/images/shopping-transparent-animated-gif.gif"
-                                                                alt="">
-                                                        </div>
-                                                        <div class="drop-content">
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
                                     <th>Quantity</th>
                                     <th>SKU</th>
                                     </th>
@@ -233,7 +197,6 @@
                                                 </td>
                                                 <td><input type="text" class="form-control" readonly
                                                            value="{{$v->cost}}" placeholder="$0.00"></td>
-                                                <td class="drop-shipping text-center">N/A</td>
                                                 <td><input type="text" readonly class="form-control"
                                                            value="{{$v->quantity}}" name="quantity" placeholder="0">
                                                 </td>

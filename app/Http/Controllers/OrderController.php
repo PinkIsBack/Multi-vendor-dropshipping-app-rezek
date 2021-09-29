@@ -14,6 +14,7 @@ use App\RetailerOrder;
 use App\ShippingRate;
 use App\WareHouse;
 use App\Zone;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -121,6 +122,7 @@ class OrderController extends Controller
                         $new->save();
 
                         $cost_to_pay = 0;
+                        $supplier_to_pay = 0;
 
                         foreach ($order->line_items as $item) {
                             $new_line = new MerchantLineItems();
@@ -145,6 +147,13 @@ class OrderController extends Controller
                             $merchant_product = MerchantProduct::where('shopify_id', $item->product_id)->first();
                             if ($merchant_product != null) {
                                 $new_line->fulfilled_by = $merchant_product->fulfilled_by;
+                                $new_line->linked_product_id = $merchant_product->id;
+
+
+                                $new_line->supplier_id = $merchant_product->supplier_id;
+                                $new_line->margin =  $merchant_product->margin;
+
+
                             } else {
                                 $new_line->fulfilled_by = 'store';
                             }
@@ -152,10 +161,16 @@ class OrderController extends Controller
                             if ($merchant_product != null) {
                                 $related_variant = MerchantVariant::where('shopify_id', $item->variant_id)->first();
                                 if ($related_variant != null) {
+
+                                    $new_line->linked_variant_id = $related_variant->id;
+                                    $new_line->supplier_price = $related_variant->supplier_price;
                                     $new_line->cost = $related_variant->cost;
+                                    $supplier_to_pay = $supplier_to_pay + $related_variant->supplier_price * $item->quantity;
                                     $cost_to_pay = $cost_to_pay + $related_variant->cost * $item->quantity;
                                 } else {
                                     $new_line->cost = $merchant_product->cost;
+                                    $new_line->supplier_price = $merchant_product->supplier_price;
+                                    $supplier_to_pay = $supplier_to_pay + $merchant_product->supplier_price * $item->quantity;
                                     $cost_to_pay = $cost_to_pay + $merchant_product->cost * $item->quantity;
                                 }
                             }
@@ -163,6 +178,29 @@ class OrderController extends Controller
                             $new_line->save();
                         }
                         $new->cost_to_pay = $cost_to_pay;
+                        $new->supplier_price = $supplier_to_pay;
+                        $new->commission = $cost_to_pay - $supplier_to_pay;
+
+                        $customer = json_decode($new->customer);
+                        $billing = json_decode($new->billing_address);
+                        $shipping = json_decode($new->shipping_address);
+                        if($shipping != null){
+                            if($shipping->city == 'johannesburg' || $shipping->city == 'pretoria'){
+                                $shipping_price = 59;
+                            }
+                            else{
+                                $shipping_price = 99;
+                            }
+                        }
+                        elseif ($billing != null){
+                            if($billing->city == 'johannesburg' || $billing->city == 'pretoria'){
+                                $shipping_price = 59;
+                            }
+                            else{
+                                $shipping_price = 99;
+                            }
+                        }
+                        $new->shipping_price = $shipping_price;
                         $new->save();
 
                         if (isset($order->shipping_address)) {
@@ -262,7 +300,7 @@ class OrderController extends Controller
 
                         /*Maintaining Log*/
                         $order_log = new OrderLog();
-                        $order_log->message = "Order synced to WeFullFill on " . date_create($new->created_at)->format('d M, Y h:i a');
+                        $order_log->message = "Order synced to Zadropship on " . date_create($new->created_at)->format('d M, Y h:i a');
                         $order_log->status = "Newly Synced";
                         $order_log->merchant_order_id = $new->id;
                         $order_log->save();
@@ -287,4 +325,69 @@ class OrderController extends Controller
             return 'unfulfilled';
         }
     }
+    public function payfast_paid_success(Request $request,$id)
+    {
+        $order = MerchantOrder::where('id',$id)->firstOrfail();
+        $order->paid = 1;
+        $order->status = 'Paid';
+        $order->save();
+        $order_log = new OrderLog();
+        $order_log->message = "An amount of " . ($order->cost_to_pay + $order->shipping_price) ." USD has been processed successfully on " . date_create($new_fulfillment->created_at)->format('d M, Y h:i a');
+        $order_log->status = "Order Paid";
+        $order_log->merchant_order_id = $order->id;
+        $order_log->save();
+        return redirect()->route('store.order.detail',$order->id)->with('success','Order paid successfully');
+
+    }
+
+//    finance
+
+
+    public function financeIndex(Request $request)
+    {
+        $shop = Auth::user();
+
+        $previous_week = strtotime("-1 week +1 day");
+        $start_week = strtotime("last sunday midnight",$previous_week);
+        $end_week = strtotime("next saturday",$start_week);
+        $start_week = date("Y-m-d",$start_week);
+        $end_week = date("Y-m-d",$end_week);
+
+
+        $this_week_order = MerchantOrder::where('shop_id', $shop->id)->where('paid',1)->whereBetween('created_at', [$start_week, $end_week])->count();
+
+        //        dd($orders);
+
+        $orders = MerchantOrder::where('shop_id', $shop->id)->where('paid',1)->newQuery();
+
+     $total_cost_pay =   $orders->sum('cost_to_pay');
+     $total_cost_shipping =   $orders->sum('shipping_price');
+     $total = $total_cost_pay + $total_cost_shipping;
+     $total_selling_price =   $orders->sum('total_price');
+     $total_earning = $total_selling_price - $total_cost_pay;
+
+        if ($request->has('search')) {
+            $orders->where('admin_shopify_name', 'LIKE', '%' . $request->input('search') . '%');
+        }
+
+        if ($request->has('unpaid')) {
+            $orders->where('paid', 0);
+        }
+        if ($request->has('unfulfilled')) {
+            $orders->where('status', 'unfulfilled');
+        }
+        if ($request->has('cancel')) {
+            $orders->where('status', 'cancelled');
+        }
+
+        $orders = $orders->orderBy('name', 'DESC')->paginate(30);
+        return view('merchant.finance.index')->with([
+            'orders' => $orders,
+            'search' => $request->input('search'),
+            'total_earning' => $total_earning,
+            'this_week_orders' => $this_week_order,
+            'total' => $total,
+        ]);
+    }
+
 }

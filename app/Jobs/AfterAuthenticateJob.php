@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Http\Controllers\InventoryController;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -24,6 +25,8 @@ class AfterAuthenticateJob implements ShouldQueue
         $user = Auth::user();
         if (!$user->hasRole('Merchant')) {
             $user->assignRole('Merchant');
+            $new = new InventoryController();
+            $new->create_service();
         }
     }
 

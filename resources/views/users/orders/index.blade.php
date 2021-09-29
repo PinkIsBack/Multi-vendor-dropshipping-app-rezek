@@ -4,9 +4,7 @@
         <div class="col-md-6 col-sm-6 col-xs-6">
             <span class="font-weight-bold font-20 vertical-align-middle">Orders</span>
         </div>
-        <div class="col-md-6 col-sm-6 col-xs-6 text-right">
-                <a href="{{route('store.sync.orders')}}" class="btn btn-sm btn-primary" type="button"><i class="fa fa-sync"></i> Sync Orders</a>
-        </div>
+
     </div>
     @include('layouts.flash_message')
     <form action="">
@@ -73,7 +71,7 @@
                                     @endif
 
                                     <td class="font-w600">
-                                        <a href="{{route('store.order.detail',$order->id)}}">{{ $order->name }}</a>
+                                        <a href="{{route('admin.order.detail',$order->id)}}">{{ $order->name }}</a>
                                     </td>
                                         <td>
                                             {{$order->admin_shopify_name}}
@@ -163,7 +161,7 @@
                                     </td>
                                     <td class="text-right">
                                         <div class="btn-group">
-                                            <a href="{{route('store.order.detail',$order->id)}}"
+                                            <a href="{{route('admin.order.detail',$order->id)}}"
                                                class="btn btn-sm btn-primary" type="button">View</a>
                                             <a
                                                 {{--                                                    href="{{route('store.order.delete',$order->id)}}"--}}
@@ -184,11 +182,7 @@
                             </div>
                         </div>
                     @else
-                        <p>No Orders Found <a href="{{route('store.sync.orders')}}"
-                                              class="btn btn-sm btn-primary" style="font-size: 12px;float: right"
-                                              type="button" data-toggle="tooltip" title=""
-                                              data-original-title="Sync Orders"><i class="fa fa-sync"></i> Sync New
-                                Orders</a></p>
+                        <p>No Orders Found</p>
                     @endif
                 </div>
             </div>

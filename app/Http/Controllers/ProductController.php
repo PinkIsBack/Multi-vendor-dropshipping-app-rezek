@@ -36,7 +36,7 @@ class ProductController extends Controller
                 ]);
         }
         if ($user->hasRole('Supplier')) {
-            $productQuery = Product::latest()->newQuery();
+            $productQuery = Product::where('supplier_id',Auth::user()->id)->newQuery();
             if ($request->has('search')) {
                 $productQuery->where('title', 'LIKE', '%' . $request->input('search') . '%');
             }

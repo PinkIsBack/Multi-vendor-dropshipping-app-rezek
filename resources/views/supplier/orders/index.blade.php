@@ -4,9 +4,7 @@
         <div class="col-md-6 col-sm-6 col-xs-6">
             <span class="font-weight-bold font-20 vertical-align-middle">Orders</span>
         </div>
-        <div class="col-md-6 col-sm-6 col-xs-6 text-right">
-                <a href="{{route('store.sync.orders')}}" class="btn btn-sm btn-primary" type="button"><i class="fa fa-sync"></i> Sync Orders</a>
-        </div>
+
     </div>
     @include('layouts.flash_message')
     <form action="">
@@ -47,7 +45,6 @@
                                 <th>Name</th>
                                 <th>Order#</th>
                                 <th>Order Date</th>
-                                <th>Price</th>
                                 <th>Cost</th>
                                 <th>Payment Status</th>
                                 <th>Status</th>
@@ -73,7 +70,7 @@
                                     @endif
 
                                     <td class="font-w600">
-                                        <a href="{{route('store.order.detail',$order->id)}}">{{ $order->name }}</a>
+                                        <a href="{{route('supplier.order.detail',$order->id)}}">{{ $order->name }}</a>
                                     </td>
                                         <td>
                                             {{$order->admin_shopify_name}}
@@ -83,11 +80,9 @@
 
                                     </td>
 
+
                                     <td>
-                                        {{number_format($order->total_price,2)}} USD
-                                    </td>
-                                    <td>
-                                        {{number_format($order->cost_to_pay,2)}} USD
+                                        {{number_format($order->supplier_pay,2)}} USD
 
                                     </td>
                                     <td>
@@ -100,33 +95,14 @@
                                         @endif
 
                                     </td>
-                                    <td>
-                                        @if($order->status == 'Paid')
-                                            <span class="badge badge-warning text-white"> Unfulfilled</span>
-                                        @elseif($order->status == 'unfulfilled')
-                                            <span
-                                                class="badge badge-warning text-white"> {{ucfirst($order->status)}}</span>
-                                        @elseif($order->status == 'partially-shipped')
-                                            <span class="badge "
-                                                  style="font-size: small;background: darkolivegreen;color: white;"> {{ucfirst($order->status)}}</span>
-                                        @elseif($order->status == 'shipped')
-                                            <span class="badge "
-                                                  style="font-size: small;background: orange;color: white;"> {{ucfirst($order->status)}}</span>
-                                        @elseif($order->status == 'delivered')
-                                            <span class="badge "
-                                                  style="font-size: small;background: deeppink;color: white;"> {{ucfirst($order->status)}}</span>
-                                        @elseif($order->status == 'completed')
-                                            <span class="badge "
-                                                  style="font-size: small;background: darkslategray;color: white;"> {{ucfirst($order->status)}}</span>
-                                        @elseif($order->status == 'new')
-                                            <span class="badge badge-warning"> Draft </span>
-                                        @elseif($order->status == 'cancelled')
-                                            <span class="badge badge-warning"> {{ucfirst($order->status)}} </span>
-                                        @else
-                                            <span class="badge badge-success">  {{ucfirst($order->status)}} </span>
-                                        @endif
+                                        <td>
+                                            @if($order->supplier_line_item->where('is_supplier_fulfill',0)->count() > 0)
+                                                <span class="badge badge-warning text-white"> Unfulfilled</span>
+                                            @else
+                                                <span class="badge badge-success text-white"> fulfilled</span>
+                                            @endif
+                                        </td>
 
-                                    </td>
                                     <td>
                                         @php
                                             $out_of_stock = 0;
@@ -163,11 +139,9 @@
                                     </td>
                                     <td class="text-right">
                                         <div class="btn-group">
-                                            <a href="{{route('store.order.detail',$order->id)}}"
+                                            <a href="{{route('supplier.order.detail',$order->id)}}"
                                                class="btn btn-sm btn-primary" type="button">View</a>
-                                            <a
-                                                {{--                                                    href="{{route('store.order.delete',$order->id)}}"--}}
-                                                class="btn btn-sm btn-danger" type="button">Delete</a>
+
                                         </div>
 
                                     </td>
@@ -184,11 +158,7 @@
                             </div>
                         </div>
                     @else
-                        <p>No Orders Found <a href="{{route('store.sync.orders')}}"
-                                              class="btn btn-sm btn-primary" style="font-size: 12px;float: right"
-                                              type="button" data-toggle="tooltip" title=""
-                                              data-original-title="Sync Orders"><i class="fa fa-sync"></i> Sync New
-                                Orders</a></p>
+                        <p>No Orders Found</p>
                     @endif
                 </div>
             </div>

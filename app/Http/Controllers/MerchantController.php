@@ -7,6 +7,7 @@ use App\Models\MerchantProductImages;
 use App\Models\MerchantVariant;
 use App\Models\Product;
 use App\Models\ProductStatus;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -320,8 +321,11 @@ class MerchantController extends Controller
                 }
                 $merchantProduct->tags = $tags;
                 $merchantProduct->vendor = $product->vendor;
-                $merchantProduct->price = $product->price;
-                $merchantProduct->cost = $product->price;
+                $merchantProduct->price = $product->c_price;
+                $merchantProduct->cost = $product->c_price;
+                $merchantProduct->margin = Setting::first()->margin;
+                $merchantProduct->supplier_price = $product->price;
+                $merchantProduct->supplier_id = $product->supplier_id;
                 $merchantProduct->quantity = $product->quantity;
                 $merchantProduct->weight = $product->weight;
                 $merchantProduct->sku = $product->sku;
@@ -353,8 +357,11 @@ class MerchantController extends Controller
                             $merchantProductVariant->option1 = $variant->option1;
                             $merchantProductVariant->option2 = $variant->option2;
                             $merchantProductVariant->option3 = $variant->option3;
-                            $merchantProductVariant->price = $variant->price;
-                            $merchantProductVariant->cost = $variant->price;
+                            $merchantProductVariant->price = $variant->c_price;
+                            $merchantProductVariant->cost = $variant->c_price;
+                            $merchantProductVariant->supplier_price = $variant->price;
+                            $merchantProductVariant->margin = Setting::first()->margin;
+                            $merchantProductVariant->supplier_id = $variant->supplier_id;
                             $merchantProductVariant->quantity = $variant->quantity;
                             $merchantProductVariant->sku = $variant->sku;
                             $merchantProductVariant->barcode = $variant->barcode;

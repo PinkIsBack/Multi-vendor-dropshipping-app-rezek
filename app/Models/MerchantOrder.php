@@ -8,19 +8,77 @@ use App\ShippingRate;
 use App\Zone;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class MerchantOrder extends Model
 {
     use HasFactory;
 
+    public function total_fulfillable($order){
+        return $order->line_items->whereIn('fulfilled_by',['Fantasy','ZADropship'])->sum('fulfillable_quantity');
+    }
+
+    public function getStatus($order){
+        $status = $order->line_items->where('is_supplier_fulfill',0)->count();
+        if($status == 0){
+            return 'fulfilled';
+        }
+        else{
+            return 'unfulfilled';
+        }
+    }
+
     public function line_items()
     {
         return $this->hasMany(MerchantLineItems::class, 'merchant_order_id');
     }
+    public function tracking(){
+        return $this->hasMany(OrderTracking::class,'order_id');
+    }
+    public function supplier_tracking(){
+        return $this->tracking()->where('supplier_id',Auth::user()->id);
+    }
+    public function supplier_line_item(){
+//        return $this->line_items[0]->product;
+        return $this->line_items()->where('supplier_id',Auth::user()->id);
+        /*->has('product',function ($query){
+            return $query->where('supplier_id',Auth::user()->id);
+        })->get();// ('supplier',Auth::user()->id)->get();
+        dd($abc);
+*/
+    }
+    public function getSupplierPayAttribute() {
+        $cost_to_pay = 0;
+        foreach ($this->line_items()->where('fulfilled_by', '!=', 'store')->where('supplier_id',Auth::user()->id)->get() as $index => $item) {
+            $cost_to_pay = $cost_to_pay + $item->supplier_price * $item->quantity;
+        }
+
+        return $cost_to_pay;
+    }
+
+    public function getSupplierCostAttribute() {
+        $cost_to_pay = 0;
+        foreach ($this->line_items()->where('fulfilled_by', '!=', 'store')->get() as $index => $item) {
+            $cost_to_pay = $cost_to_pay + $item->supplier_price * $item->quantity;
+        }
+
+        return $cost_to_pay;
+    }
+
+    public function SupplierCostProduct($id) {
+        $cost_to_pay = 0;
+        foreach ($this->line_items()->where('fulfilled_by', '!=', 'store')->get() as $index => $item) {
+            if($item->product->supplier_id = $id){
+                $cost_to_pay = $cost_to_pay + $item->supplier_price * $item->quantity;
+            }
+        }
+
+        return $cost_to_pay;
+    }
 
     public function has_payment()
     {
-        return $this->hasOne('App\OrderTransaction', 'retailer_order_id');
+        return $this->hasOne('App\Models\OrderTransaction', 'merchant_order_id');
     }
 
     public function has_store()
@@ -40,7 +98,7 @@ class MerchantOrder extends Model
 
     public function logs()
     {
-        return $this->hasMany(OrderLog::class, 'retailer_order_id');
+        return $this->hasMany(OrderLog::class, 'merchant_order_id');
     }
 //    public function imported(){
 //        return $this->hasOne('App\UserFileTemp','order_id');

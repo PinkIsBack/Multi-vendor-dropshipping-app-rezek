@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AdminOrderController;
+use App\Http\Controllers\SupplierOrderController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
@@ -50,6 +52,9 @@ Route::group(['middleware' => ['auth.shopify', 'billable']], function () {
     Route::get('/shopify/orders', [OrderController::class,'getOrders'])->name('store.sync.orders');
     Route::get('/orders', [OrderController::class, 'index'])->name('store.orders');
     Route::get('/order/{id}/detail', [OrderController::class, 'detail'])->name('store.order.detail');
+    Route::get('/payfast-pay/{id}/success',[OrderController::class,'payfast_paid_success'])->name('store.payfast.pay.success');
+    Route::get('/finance',[OrderController::class,'financeIndex'])->name('store.finance.index');
+
 });
 
 Auth::routes();
@@ -103,4 +108,22 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/supplier', [UserController::class, 'supplier'])->name('supplier.all');
     Route::get('/profile', [UserController::class, 'profile'])->name('user.profile');
     Route::any('/profile/{id}/update', [UserController::class, 'profileUpdate'])->name('user.profile.update');
+//    Order for Admin
+    Route::get('admin/orders/all',[AdminOrderController::class,'index'])->name('orders.all');
+    Route::get('/admin/order/{id}/detail', [AdminOrderController::class, 'detail'])->name('admin.order.detail');
+    Route::get('admin/payfast-pay/{id}/success',[AdminOrderController::class,'payfast_paid_success'])->name('admin.payfast.pay.success');
+//    Order for supplier
+    Route::get('supplier/orders/all',[SupplierOrderController::class,'index'])->name('supplier.orders.all');
+    Route::get('supplier/order/{id}/detail', [SupplierOrderController::class, 'detail'])->name('supplier.order.detail');
+    Route::get('supplier/order/{id}/fulfillment',[SupplierOrderController::class,'fulfill_order'])->name('supplier.order.fulfillment');
+    Route::post('supplier/order/fulfillment/{id}/complete',[SupplierOrderController::class,'fulfillment_order'])->name('supplier.order.fulfillment.process');
+    Route::post('supplier/order/tracking/store',[\App\Http\Controllers\OrderTrackingController::class,'store'])->name('supplier.order.tracking.store');
+    Route::post('supplier/order/tracking/update',[\App\Http\Controllers\OrderTrackingController::class,'update'])->name('supplier.order.tracking.update');
+//    finanace for supplier
+    Route::get('supplier/finance/all',[\App\Http\Controllers\SupplierFinanceController::class,'index'])->name('supplier.finance.index');
+    Route::get('supplier/finance/view/{id}',[\App\Http\Controllers\SupplierFinanceController::class,'show'])->name('supplier.finance.show');
+//    finance for admin
+    Route::get('admin/finance/all',[\App\Http\Controllers\FinanceController::class,'index'])->name('admin.finance.index');
+    Route::get('admin/finance/view/{id}',[\App\Http\Controllers\FinanceController::class,'show'])->name('admin.finance.show');
+    Route::get('admin/finance/pay/{id}',[\App\Http\Controllers\FinanceController::class,'payNow'])->name('admin.finance.pay');
 });

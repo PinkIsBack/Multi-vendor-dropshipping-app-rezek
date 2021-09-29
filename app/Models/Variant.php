@@ -17,4 +17,7 @@ class Variant extends Model
     public function linked_product(){
         return $this->belongsTo('App\Models\Product', 'product_id');
     }
+    public function getCPriceAttribute(){
+        return $this->price + ($this->price * (Setting::first()->margin)/100);
+    }
 }

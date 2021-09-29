@@ -32,16 +32,53 @@
             </li>
         </ul>
     </li>
+    <li>
+        <a href="{{ route('store.finance.index') }}">
+            <div class="parent-icon icon-color-7"><i class="bx bxs-dollar-circle"></i></div>
+            <div class="menu-title">Finance</div>
+        </a>
+    </li>
+{{--    store.finance.index--}}
     @endrole
-    @role('Admin|Supplier')
+    @role('Supplier')
     <li>
         <a href="{{ route('product.all') }}">
             <div class="parent-icon icon-color-1"><i class="bx bxs-package"></i></div>
             <div class="menu-title">Products</div>
         </a>
     </li>
+    <li>
+        <a href="{{ route('supplier.orders.all') }}">
+            <div class="parent-icon icon-color-4"><i class="bx bx-cart"></i></div>
+            <div class="menu-title">Orders</div>
+        </a>
+    </li>
+    <li>
+        <a href="{{ route('supplier.finance.index') }}">
+            <div class="parent-icon icon-color-7"><i class="bx bxs-dollar-circle"></i></div>
+            <div class="menu-title">Finance</div>
+        </a>
+    </li>
     @endrole
     @role('Admin')
+    <li>
+        <a href="{{ route('product.all') }}">
+            <div class="parent-icon icon-color-1"><i class="bx bxs-package"></i></div>
+            <div class="menu-title">Products</div>
+        </a>
+    </li>
+    <li>
+        <a href="{{ route('orders.all') }}">
+            <div class="parent-icon icon-color-4"><i class="bx bx-cart"></i></div>
+            <div class="menu-title">Orders</div>
+        </a>
+    </li>
+    <li>
+        <a href="{{ route('admin.finance.index') }}">
+            <div class="parent-icon icon-color-7"><i class="bx bxs-dollar-circle"></i></div>
+            <div class="menu-title">Finance</div>
+        </a>
+    </li>
     <li>
         <a href="{{ route('users.index') }}">
             <div class="parent-icon icon-color-8"><i class="bx bx-user-voice"></i></div>

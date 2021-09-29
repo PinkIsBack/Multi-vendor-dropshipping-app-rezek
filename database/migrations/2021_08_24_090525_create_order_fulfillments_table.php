@@ -21,8 +21,8 @@ class CreateOrderFulfillmentsTable extends Migration
             $table->text('tracking_url')->nullable();
             $table->text('tracking_number')->nullable();
             $table->text('tracking_notes')->nullable();
-            $table->text('fullfilment_shopify_id')->nullable();
-            $table->text('admin_fullfilment_shopify_id')->nullable();
+            $table->text('fulfillment_shopify_id')->nullable();
+            $table->text('admin_fulfillment_shopify_id')->nullable();
             $table->text('tracking_company')->nullable();
             $table->timestamps();
         });

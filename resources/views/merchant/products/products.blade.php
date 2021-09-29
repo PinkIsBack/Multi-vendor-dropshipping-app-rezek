@@ -49,7 +49,7 @@
                         @endif
                         <div class="card-body">
                             <h5 class="card-title"><a href="{{ route('product.detail', $product->id) }}" class="text-dark text-capitalize">{{ $product->title }}</a></h5>
-                            <p class="card-text">{{ \App\Helpers\AppHelper::currency() }}{{ number_format($product->price, 2) }}</p>
+                            <p class="card-text">{{ \App\Helpers\AppHelper::currency() }}{{ number_format($product->c_price, 2) }}</p>
                             <a href="{{ route('import.product.merchant', $product->id) }}" class="btn btn-sm btn-block btn-primary">Import</a>
                         <span class="text-muted font-small">Fulfilled by ZADropship</span>
                         </div>
