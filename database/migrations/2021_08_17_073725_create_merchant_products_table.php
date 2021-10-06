@@ -47,12 +47,12 @@ class CreateMerchantProductsTable extends Migration
 
             $table->text('status')->nullable();
             $table->text('fulfilled_by')->nullable();
-            $table->text('toShopify')->default(0)->nullable();
+            $table->boolean('toShopify')->default(0)->nullable();
 
             $table->text('shopify_id')->nullable();
             $table->text('inventory_item_id')->nullable();
             $table->text('managed_inventory')->nullable();
-            $table->text('imported_from_shopify')->default(0)->nullable();
+            $table->boolean('imported_from_shopify')->default(0)->nullable();
             $table->text('is_dropship_product')->nullable();
             $table->text('import_status')->nullable();
 
