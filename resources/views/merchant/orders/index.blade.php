@@ -152,9 +152,9 @@
                                         <div class="btn-group">
                                             <a href="{{route('store.order.detail',$order->id)}}"
                                                class="btn btn-sm btn-primary" type="button">View</a>
-                                            <a
+{{--                                            <a--}}
                                                 {{--                                                    href="{{route('store.order.delete',$order->id)}}"--}}
-                                                class="btn btn-sm btn-danger" type="button">Delete</a>
+{{--                                                class="btn btn-sm btn-danger" type="button">Delete</a>--}}
                                         </div>
 
                                     </td>
