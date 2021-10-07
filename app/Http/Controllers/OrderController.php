@@ -332,7 +332,7 @@ class OrderController extends Controller
         $order->status = 'Paid';
         $order->save();
         $order_log = new OrderLog();
-        $order_log->message = "An amount of " . ($order->cost_to_pay + $order->shipping_price) ." USD has been processed successfully on " . date_create($new_fulfillment->created_at)->format('d M, Y h:i a');
+        $order_log->message = "An amount of " . ($order->cost_to_pay + $order->shipping_price) ." USD has been processed successfully on " . now();
         $order_log->status = "Order Paid";
         $order_log->merchant_order_id = $order->id;
         $order_log->save();
