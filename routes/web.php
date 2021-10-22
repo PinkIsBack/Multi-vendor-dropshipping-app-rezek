@@ -127,3 +127,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('admin/finance/view/{id}',[\App\Http\Controllers\FinanceController::class,'show'])->name('admin.finance.show');
     Route::get('admin/finance/pay/{id}',[\App\Http\Controllers\FinanceController::class,'payNow'])->name('admin.finance.pay');
 });
+
+// Laravel 8
+Route::post('/pay', [App\Http\Controllers\PaymentController::class, 'redirectToGateway'])->name('pay');
+Route::get('/payment/callback', [App\Http\Controllers\PaymentController::class, 'handleGatewayCallback']);
+
+

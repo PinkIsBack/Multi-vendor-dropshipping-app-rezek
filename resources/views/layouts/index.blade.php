@@ -33,7 +33,7 @@
                 <img src="{{ asset('assets/images/logo-icon.png')}}" class="logo-icon-2" alt=""/>
             </div>
             <div>
-                <h4 class="logo-text" ropship>ZADropship</h4>
+                <h4 class="logo-text text-nowrap" >ZA Dropship</h4>
             </div>
             <a href="javascript:;" class="toggle-btn ml-auto"> <i class="bx bx-menu"></i>
             </a>
@@ -44,8 +44,8 @@
     </div>
     <header class="top-header">
         <nav class="navbar navbar-expand">
-            <div class="left-topbar d-flex align-items-center">
-                <a href="javascript:;" class="toggle-btn"> <i class="bx bx-menu"></i>
+            <div class="left-toolbar d-flex align-items-center">
+                <a href="javascript:" class="toggle-btn"> <i class="bx bx-menu"></i>
                 </a>
             </div>
             <div class="flex-grow-1 search-bar">

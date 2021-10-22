@@ -37,18 +37,20 @@
             @foreach($products as $index => $product)
                 <div class="col-12 col-lg-3 col-xl-3">
                     <div class="card">
+                        <div class="">
                         @if(count($product->has_images) > 0)
                             @foreach($product->has_images()->orderBy('position')->get() as $index => $image)
                                 @if($index == 0)
-                                    <img class="card-img-top" src="{{asset($image->src) }}">
+                                    <img class="card-img-top" src="{{asset($image->src) }}" style="height: 255px;">
                                 @endif
                             @endforeach
                         @else
                             <img class="card-img-top"
-                                 src="https://wfpl.org/wp-content/plugins/lightbox/images/No-image-found.jpg">
+                                 src="https://wfpl.org/wp-content/plugins/lightbox/images/No-image-found.jpg" style="height: 255px;">
                         @endif
+                        </div>
                         <div class="card-body">
-                            <h5 class="card-title"><a href="{{ route('product.detail', $product->id) }}" class="text-dark text-capitalize">{{ $product->title }}</a></h5>
+                            <h5 class="card-title" style="font-size: 0.9rem;height: 38px;overflow: hidden;"><a href="{{ route('product.detail', $product->id) }}" class="text-dark text-capitalize">{{ $product->title }}</a></h5>
                             <p class="card-text">{{ \App\Helpers\AppHelper::currency() }}{{ number_format($product->c_price, 2) }}</p>
                             <a href="{{ route('import.product.merchant', $product->id) }}" class="btn btn-sm btn-block btn-primary">Import</a>
                         <span class="text-muted font-small">Fulfilled by ZADropship</span>

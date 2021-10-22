@@ -31,14 +31,14 @@
                         @if(count($product->has_images) > 0)
                             @foreach($product->has_images()->orderBy('position')->get() as $index => $image)
                                 @if($index == 0)
-                                    <img class="card-img-top" src="{{asset($image->src) }}">
+                                    <img class="card-img-top" src="{{asset($image->src) }}" style="height: 255px;">
                                 @endif
                             @endforeach
                         @else
-                            <img class="card-img-top" src="https://wfpl.org/wp-content/plugins/lightbox/images/No-image-found.jpg">
+                            <img class="card-img-top" src="https://wfpl.org/wp-content/plugins/lightbox/images/No-image-found.jpg" style="height: 255px;">
                         @endif
                         <div class="card-body">
-                            <h5 class="card-title"><a href="{{ route('my.product.detail', $product->id) }}" class="text-dark text-capitalize">{{ $product->title }}</a></h5>
+                            <h5 class="card-title" style="font-size: 0.9rem;height: 38px;overflow: hidden;"><a href="{{ route('my.product.detail', $product->id) }}" class="text-dark text-capitalize">{{ $product->title }}</a></h5>
                             <p class="card-text">{{ \App\Helpers\AppHelper::currency() }}{{ $product->price }}</p>
                             <div class="btn-group btn-group-sm">
                                 <a href="{{ route('my.product.detail', $product->id) }}" class="btn btn-primary">View</a>

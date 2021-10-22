@@ -199,7 +199,7 @@
                                     Total Cost @if($order->paid == 0) to Pay @endif
                                 </td>
                                 <td align="right" class="total">
-                                    {{number_format($order->cost_to_pay + $order->shipping_price  ,2)}} USD
+                                    {{number_format($order->cost_to_pay + $order->shipping_price  ,2)}}  {{ \App\Helpers\AppHelper::currency() }}
                                 </td>
                             </tr>
                             <tr>
@@ -213,9 +213,28 @@
                                         <input type="hidden" name="item_name" value="{{$order->name}}">
                                         <input type="hidden" name="return_url" value="{{route('store.payfast.pay.success',$order->id)}}">
                                         <input type="hidden" name="cancel_url" value="{{route('store.order.detail',$order->id)}}">
-                                        <a href="{{route('store.payfast.pay.success',$order->id)}}" class="btn btn-primary">Pay Now</a>
+{{--                                        <a href="{{route('store.payfast.pay.success',$order->id)}}" class="btn btn-primary">Pay Now</a>--}}
 {{--                                        <button class="btn btn-primary">Pay Now</button>--}}
                                     </form>
+                                        <form method="POST" action="{{ route('pay') }}" accept-charset="UTF-8" class="form-horizontal" role="form">
+
+                                                    <input type="hidden" name="email" value="zaecomproviders@gmail.com"> {{-- required --}}
+                                                    <input type="hidden" name="orderID" value="{{$order->name}}">
+                                                    <input type="hidden" name="amount" value="{{($order->cost_to_pay + $order->shipping_price)*100}}"> {{-- required in kobo --}}
+{{--                                                    <input type="hidden" name="quantity" value="3">--}}
+                                                    <input type="hidden" name="currency" value="ZAR">
+                                                    <input type="hidden" name="metadata" value="{{ json_encode($array = ['key_name' => 'value',]) }}" > {{-- For other necessary things you want to add to your payload. it is optional though --}}
+{{--                                                   @dd(Paystack::genTranxRef())--}}
+                                                    <input type="hidden" name="reference" value="{{ Paystack::genTranxRef() }}">
+
+                                                  @csrf
+
+                                                        <button class="btn btn-primary" type="submit" value="Pay Now!">
+                                                            <i class="fa fa-plus-circle fa-lg"></i> Pay Now!
+                                                        </button>
+
+                                        </form>
+
                                     @else
                                         <button class="btn btn-primary" disabled>Paid</button>
                                     @endif

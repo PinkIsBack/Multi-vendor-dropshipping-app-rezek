@@ -175,6 +175,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
+
+        Unicodeveloper\Paystack\PaystackServiceProvider::class,
     ],
 
     /*
@@ -228,7 +230,10 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'AppHelper' => App\Helpers\AppHelper::class
+        'AppHelper' => App\Helpers\AppHelper::class,
+
+
+        'Paystack' => Unicodeveloper\Paystack\Facades\Paystack::class,
     ],
 
 ];

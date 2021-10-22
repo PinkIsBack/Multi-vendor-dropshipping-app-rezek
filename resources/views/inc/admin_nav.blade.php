@@ -12,7 +12,7 @@
             </div>
             <div class="menu-title">Products</div>
         </a>
-        <ul class="mm-collapse" style="height: 2px;">
+        <ul class="mm-collapse" style="">
             <li><a href="{{ route('product.all') }}"><i class="bx bx-right-arrow-alt"></i>Search Products</a>
             </li>
             <li><a href="{{ route('import.product.list') }}"><i class="bx bx-right-arrow-alt"></i>Import List</a>
@@ -27,7 +27,7 @@
             </div>
             <div class="menu-title">Orders</div>
         </a>
-        <ul class="mm-collapse" style="height: 2px;">
+        <ul class="mm-collapse" style="">
             <li><a href="{{ route('store.orders') }}"><i class="bx bx-right-arrow-alt"></i>My Orders</a>
             </li>
         </ul>
@@ -109,7 +109,7 @@
             </div>
             <div class="menu-title">Shipping</div>
         </a>
-        <ul class="mm-collapse" style="height: 2px;">
+        <ul class="mm-collapse" style="">
             <li><a href="{{ route('shipping.areas') }}"><i class="bx bx-right-arrow-alt"></i>Areas</a></li>
             <li><a href="{{ route('shipping.routes') }}"><i class="bx bx-right-arrow-alt"></i>Route & Pricing</a></li>
         </ul>
@@ -120,7 +120,7 @@
             </div>
             <div class="menu-title">Settings</div>
         </a>
-        <ul class="mm-collapse" style="height: 2px;">
+        <ul class="mm-collapse" style="">
             <li><a href="{{ route('roles.index') }}"><i class="bx bx-right-arrow-alt"></i>Roles</a></li>
             <li><a href="{{ route('productstatus.all') }}"><i class="bx bx-right-arrow-alt"></i>Product Status</a></li>
             <li><a href="{{ route('setting') }}"><i class="bx bx-right-arrow-alt"></i>Currency & Margin</a></li>

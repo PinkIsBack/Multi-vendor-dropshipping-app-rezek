@@ -14,7 +14,8 @@
         "laravel/ui": "^3.3",
         "laravelcollective/html": "^6.2",
         "osiset/laravel-shopify": "^v16.0.6",
-        "spatie/laravel-permission": "^4.2"
+        "spatie/laravel-permission": "^4.2",
+        "unicodeveloper/laravel-paystack": "^1.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
