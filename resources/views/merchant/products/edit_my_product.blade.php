@@ -17,14 +17,20 @@
                 <div class="row mb-2">
                     <div class="col-md-3">
                         <div class="js-gallery">
+                            @php
+                            $images = [];
+                            @endphp
                             @if($product->has_images()->count() > 0)
                                 @php
                                     $images = $product->has_images()->orderBy('position')->get();
                                     $image = $images[0];
                                 @endphp
-
-                                <a class="img-link img-link-zoom-in img-lightbox" href="{{$image->src}}">
+                                <a class="img-link img-link-zoom-in img-lightbox" href="{{asset($image->src)}}">
                                     <img class="img-fluid" src="{{asset($image->src)}}" alt="">
+                                </a>
+                            @else
+                                <a class="img-link img-link-zoom-in img-lightbox" href="#">
+                                    <img class="img-fluid" src="https://wfpl.org/wp-content/plugins/lightbox/images/No-image-found.jpg" alt="">
                                 </a>
                             @endif
                         </div>
@@ -127,8 +133,8 @@
                         <table class="table table-hover table-borderless table-responsive">
                             <thead>
                             <tr>
-                                <th style="width: 15%;">Image</th>
                                 <th>Title</th>
+                                <th style="width: 15%;">Image</th>
                                 <th>Price</th>
                                 <th>Cost</th>
                                 <th>
@@ -243,7 +249,7 @@
                                             </td>
                                             <td><input type="text" class="form-control" readonly
                                                        value="{{$v->cost}}" placeholder="$0.00"></td>
-                                            <td class="drop-shipping text-center">N/A</td>
+{{--                                            <td class="drop-shipping text-center">N/A</td>--}}
                                             <td><input type="text" readonly class="form-control"
                                                        value="{{$v->quantity}}" name="quantity" placeholder="0">
                                             </td>
@@ -265,7 +271,7 @@
                                         </td>
                                         <td class="text-center">
                                             <img class="img-avatar " style="border: 1px solid whitesmoke"
-                                                 src="{{ $image->optimized_image }}">
+                                                 src="{{ asset($image->src) }}">
                                         </td>
                                         <td>
                                             <input type="text" class="form-control js-retailer-product-price-update"

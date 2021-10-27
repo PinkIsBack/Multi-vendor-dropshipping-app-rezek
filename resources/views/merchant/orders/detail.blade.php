@@ -4,6 +4,20 @@
         <div class="col-md-6 col-sm-6 col-xs-6">
             <span class="font-weight-bold font-20 vertical-align-middle">Order Detail</span>
         </div>
+        <div class="col-md-6 col-sm-6 col-xs-6 text-right">
+            @if($order->paid == 1)
+            @if($order->refund_request == 1)
+              <button class="btn btn-sm btn-danger" disabled>Refund Requested</button>
+              @if($order->is_refunded == 1)
+                        <button class="btn btn-sm btn-success" disabled>Refund Approved</button>
+               @elseif($order->is_refunded == 2)
+                        <button class="btn btn-sm btn-danger" disabled>Refund Rejected</button>
+              @endif
+                @else
+                <a href="{{route('store.order.refund.request')}}/?id={{$order->id}}" onclick="if(confirm('Are you sure?'){return true;}else{return false;})" class="btn btn-sm btn-danger">Refund request</a>
+            @endif
+            @endif
+        </div>
     </div>
     @include('layouts.flash_message')
 
@@ -219,11 +233,11 @@
                                         <form method="POST" action="{{ route('pay') }}" accept-charset="UTF-8" class="form-horizontal" role="form">
 
                                                     <input type="hidden" name="email" value="zaecomproviders@gmail.com"> {{-- required --}}
-                                                    <input type="hidden" name="orderID" value="{{$order->name}}">
+                                                    <input type="hidden" name="orderID" value="{{$order->id}}">
                                                     <input type="hidden" name="amount" value="{{($order->cost_to_pay + $order->shipping_price)*100}}"> {{-- required in kobo --}}
 {{--                                                    <input type="hidden" name="quantity" value="3">--}}
                                                     <input type="hidden" name="currency" value="ZAR">
-                                                    <input type="hidden" name="metadata" value="{{ json_encode($array = ['key_name' => 'value',]) }}" > {{-- For other necessary things you want to add to your payload. it is optional though --}}
+                                                    <input type="hidden" name="metadata" value="{{ json_encode($array = ['orderName' => $order->name,"order_id"=>$order->id]) }}" > {{-- For other necessary things you want to add to your payload. it is optional though --}}
 {{--                                                   @dd(Paystack::genTranxRef())--}}
                                                     <input type="hidden" name="reference" value="{{ Paystack::genTranxRef() }}">
 

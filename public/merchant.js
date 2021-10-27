@@ -560,9 +560,8 @@ $(document).ready(function () {
 */
     /*Ajax Forms Save*/
     /*Admin Module - Update Product  Save JS*/
-   /*
+
     $('.btn_save_retailer_product').click(function () {
-        alert(123)
         var forms_div =  $(this).data('tabs');
         console.log($(forms_div).find('form').length);
         if($(forms_div).find('form').length > 0){
@@ -606,7 +605,7 @@ $(document).ready(function () {
             ajaxCall(forms);
         }
     });
-    */
+
     /*Stack ajax*/
     function ajaxCall(toAdd) {
         if (toAdd.length) {

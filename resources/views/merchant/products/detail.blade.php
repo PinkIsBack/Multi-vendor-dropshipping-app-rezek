@@ -17,7 +17,8 @@
                     <div class="row js-gallery">
                         <?php
                         if (count($product->has_images) > 0) {
-                            $images = \App\Models\ProductImage::where('product_id', $product->id)->orderByRaw("CAST(position as UNSIGNED) ASC")->get();
+                            $images = \App\Models\MerchantProductImages::where('product_id', $product->id)->orderByRaw("CAST(position as UNSIGNED) ASC")->get();
+
                         } else {
                             $images = [];
                         }

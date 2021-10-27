@@ -27,13 +27,13 @@
                             <span class="badge badge-primary cursor-pointer">{{ $category->slug }}</span>
                         </div>
                         <div class="col-md-3 text-right">
-                            <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#newSubCategory">Add
-                                SubCategory
-                            </button>
+
                             <div class="btn-group btn-group-sm">
-                                <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#updatecategory{{ $category->id }}">Edit</button>
+                                <button class="btn btn-sm btn-primary" data-toggle="modal" title="Add Sub-category" data-target="#newSubCategory"><i class="bx bx-plus "></i>
+                                </button>
+                                <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#updatecategory{{ $category->id }}"><i class="bx bx-pencil"></i></button>
                                 <a href="{{ route('category.delete', $category->id) }}?type=category"
-                                   class="btn btn-sm btn-danger">Delete</a>
+                                   class="btn btn-sm btn-danger"><i class="bx bx-trash"></i></a>
                             </div>
                         </div>
                     </div>

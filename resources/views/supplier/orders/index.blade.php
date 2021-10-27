@@ -9,16 +9,15 @@
     @include('layouts.flash_message')
     <form action="">
         <div class="row mb-3">
-            <div class="col-md-10 pr-0">
-                <input type="search" value="{{$search}}" name="search" placeholder="Search by Order ID"
-                       class="form-control h-100">
+            <div class="col-md-12">
+                <div class="input-group mb-3">
+                    <input type="search" value="{{$search}}" name="search" placeholder="Search by Order ID"
+                           class="form-control h-100">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit" >Search</button>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-2 pl-0">
-                <button type="submit" class="btn btn-block btn-primary h-100"><i class="fa fa-search"
-                                                                                 style="margin-right: 5px"></i>Search
-                </button>
-            </div>
-
         </div>
     </form>
     <div class="row">
@@ -29,14 +28,12 @@
                 {{--                            <button class="btn btn-outline-secondary btn-sm bulk-wallet-btn">Pay in Bulk</button>--}}
                 {{--                        </div>--}}
                 {{--                    </div>--}}
-                <div class="card-body">
+                <div class="card-body table-responsive">
                     @if (count($orders) > 0)
                         <table class="table table-hover table-borderless">
                             <thead class="border-bottom">
                             <tr>
-                                <th class="text-center" style="width: 70px;">
 
-                                </th>
 
                                 <th>Name</th>
                                 <th>Order#</th>
@@ -51,15 +48,7 @@
                             @foreach($orders as $index => $order)
                                 <tbody class="">
                                 <tr>
-                                    @if($order->paid == 0)
-                                        <td class="text-center">
 
-                                        </td>
-                                    @else
-                                        <td class="text-center">
-
-                                        </td>
-                                    @endif
 
                                     <td class="font-w600">
                                         <a href="{{route('supplier.order.detail',$order->id)}}">{{ $order->name }}</a>
@@ -74,7 +63,7 @@
 
 
                                     <td>
-                                        {{number_format($order->supplier_pay,2)}} USD
+                                        {{number_format($order->supplier_pay,2)}} {{ \App\Helpers\AppHelper::currency() }}
 
                                     </td>
                                     <td>

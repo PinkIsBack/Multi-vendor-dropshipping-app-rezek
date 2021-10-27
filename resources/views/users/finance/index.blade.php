@@ -13,7 +13,7 @@
                 <div class="card-body text-center">
                     <div class="widgets-icons mx-auto rounded-circle bg-white"><i class="bx bx-time"></i>
                     </div>
-                    <h4 class="mb-0 font-weight-bold mt-3 text-white">$ {{number_format($total_pending,2)}}</h4>
+                    <h4 class="mb-0 font-weight-bold mt-3 text-white">{{ \App\Helpers\AppHelper::currency() }} {{number_format($total_pending,2)}}</h4>
                     <p class="mb-0 text-white">Pending Payment</p>
                 </div>
             </div>
@@ -21,7 +21,7 @@
                 <div class="card-body text-center">
                     <div class="widgets-icons mx-auto bg-white rounded-circle"><i class="bx bx-bookmark-alt"></i>
                     </div>
-                    <h4 class="mb-0 font-weight-bold mt-3 text-white">$ {{number_format($total_product_cost,2)}}</h4>
+                    <h4 class="mb-0 font-weight-bold mt-3 text-white">{{ \App\Helpers\AppHelper::currency() }} {{number_format($total_product_cost,2)}}</h4>
                     <p class="mb-0 text-white">Total Products Cost</p>
                 </div>
             </div>
@@ -29,7 +29,7 @@
                 <div class="card-body text-center">
                     <div class="widgets-icons mx-auto bg-white rounded-circle"><i class="bx bx-bulb"></i>
                     </div>
-                    <h4 class="mb-0 font-weight-bold mt-3 text-white">$ {{number_format($total_shipping_cost,2)}}</h4>
+                    <h4 class="mb-0 font-weight-bold mt-3 text-white">{{ \App\Helpers\AppHelper::currency() }} {{number_format($total_shipping_cost,2)}}</h4>
                     <p class="mb-0 text-white">Total Shipping Cost</p>
                 </div>
             </div>
@@ -39,16 +39,15 @@
     @include('layouts.flash_message')
     <form action="">
         <div class="row mb-3">
-            <div class="col-md-10 pr-0">
-                <input type="search" value="{{$search}}" name="search" placeholder="Search by Order ID or Supplier Name"
-                       class="form-control h-100">
+            <div class="col-md-12">
+                <div class="input-group mb-3">
+                    <input type="search" value="{{$search}}" name="search" placeholder="Search by Order ID Or Supplier Name"
+                           class="form-control h-100">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit" >Search</button>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-2 pl-0">
-                <button type="submit" class="btn btn-block btn-primary h-100"><i class="fa fa-search"
-                                                                                 style="margin-right: 5px"></i>Search
-                </button>
-            </div>
-
         </div>
     </form>
     <div class="row">
@@ -59,7 +58,7 @@
                 {{--                            <button class="btn btn-outline-secondary btn-sm bulk-wallet-btn">Pay in Bulk</button>--}}
                 {{--                        </div>--}}
                 {{--                    </div>--}}
-                <div class="card-body">
+                <div class="card-body table-responsive">
                     @if (count($finances) > 0)
 
                         <table class="table table-hover table-borderless">
@@ -90,12 +89,12 @@
                                         {{ $finance->no_products  }}
                                     </td>
                                     <td>
-                                       $ {{number_format($finance->cost_products,2) }}
+                                       {{ \App\Helpers\AppHelper::currency() }} {{number_format($finance->cost_products,2) }}
                                     </td>
                                     <td>
-                                       $ {{number_format($finance->cost_shipping,2) }}
+                                       {{ \App\Helpers\AppHelper::currency() }} {{number_format($finance->cost_shipping,2) }}
                                     </td>
-                                    <td>$ {{ number_format($finance->cost_products+$finance->cost_shipping,2)  }}</td>
+                                    <td>{{ \App\Helpers\AppHelper::currency() }} {{ number_format($finance->cost_products+$finance->cost_shipping,2)  }}</td>
 {{--                                    <td></td>--}}
                                     <td>
                                         @if($finance->is_paid == '0')

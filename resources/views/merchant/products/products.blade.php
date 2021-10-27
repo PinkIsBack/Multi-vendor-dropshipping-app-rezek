@@ -19,18 +19,19 @@
     @endforeach
 </div>
     <form action="">
-        <div class="row mb-3">
-            <div class="col-md-10 pr-0">
-                <input type="search" value="{{$search}}" name="search" placeholder="Search By Keyword"
+        <div class="row">
+        <div class="col-md-12">
+            <div class="input-group mb-3">
+                <input type="search" value="{{$search}}" name="search" placeholder="Search by keyword"
                        class="form-control h-100">
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="submit" >Search</button>
+                </div>
             </div>
-            <div class="col-md-2 pl-0">
-                <button type="submit" class="btn btn-block btn-primary h-100"><i class="fa fa-search"
-                                                                                 style="margin-right: 5px"></i>Search
-                </button>
-            </div>
-
         </div>
+        </div>
+
+
     </form>
     @if(count($products) > 0)
         <div class="row">

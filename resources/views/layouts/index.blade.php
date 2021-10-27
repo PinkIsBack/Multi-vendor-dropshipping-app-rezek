@@ -35,8 +35,8 @@
             <div>
                 <h4 class="logo-text text-nowrap" >ZA Dropship</h4>
             </div>
-            <a href="javascript:;" class="toggle-btn ml-auto"> <i class="bx bx-menu"></i>
-            </a>
+{{--            <a href="javascript:;" class="toggle-btn ml-auto"> <i class="bx bx-menu"></i>--}}
+{{--            </a>--}}
         </div>
         <!--navigation-->
     @include('inc.admin_nav')
@@ -103,13 +103,13 @@
 <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.js"></script>
 <script src="{{ asset('assets/plugins/jquery-tags-input/jquery.tagsinput.min.js') }}"></script>
-<script src="{{ asset('custom_app.js') }}"></script>
+<script src="{{ asset('custom_app.js')."?v=".now() }}"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
 {{--Merchant Js--}}
-<script src="{{ asset('merchant.js') }}"></script>
+<script src="{{ asset('merchant.js')."?v=".now() }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
 <script type="text/javascript">

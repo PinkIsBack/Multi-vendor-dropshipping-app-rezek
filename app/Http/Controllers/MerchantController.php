@@ -110,9 +110,10 @@ class MerchantController extends Controller
 
                     if ($product->toShopify == 1) {
                         $response = $shop->api()->rest('GET', '/admin/products/' . $product->shopify_id . '.json');
+                        $response = json_decode(json_encode($response));
                         if (!$response->errors) {
                             $shopifyVariants = $response->body->product->variants;
-                            $variant_id = $shopifyVariants[0]['id'];
+                            $variant_id = $shopifyVariants[0]->id;
                             $i = [
                                 'variant' => [
                                     'price' => $product->price,
@@ -123,7 +124,7 @@ class MerchantController extends Controller
 
                                 ]
                             ];
-                            $shop->api()->rest('PUT', '/admin/variants/' . $variant_id . '.json', $i);
+                          $data =  $shop->api()->rest('PUT', '/admin/variants/' . $variant_id . '.json', $i);
                         }
                     }
                 }

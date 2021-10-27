@@ -13,7 +13,7 @@
                 <div class="card-body text-center">
                     <div class="widgets-icons mx-auto rounded-circle bg-white"><i class="bx bxs-dollar-circle"></i>
                     </div>
-                    <h4 class="mb-0 font-weight-bold mt-3 text-white">$ {{$total_earning}}</h4>
+                    <h4 class="mb-0 font-weight-bold mt-3 text-white">{{ \App\Helpers\AppHelper::currency() }} {{$total_earning}}</h4>
                     <p class="mb-0 text-white">Total Earning</p>
                 </div>
             </div>
@@ -29,7 +29,7 @@
                 <div class="card-body text-center">
                     <div class="widgets-icons mx-auto bg-white rounded-circle"><i class="bx bx-bulb"></i>
                     </div>
-                    <h4 class="mb-0 font-weight-bold mt-3 text-white">$ {{$total}}</h4>
+                    <h4 class="mb-0 font-weight-bold mt-3 text-white">{{ \App\Helpers\AppHelper::currency() }} {{$total}}</h4>
                     <p class="mb-0 text-white">Total Order Payments</p>
                 </div>
             </div>
@@ -39,15 +39,15 @@
 
     @include('layouts.flash_message')
     <form action="">
-        <div class="row mb-3">
-            <div class="col-md-10 pr-0">
-                <input type="search" value="{{$search}}" name="search" placeholder="Search by Order ID"
-                       class="form-control h-100">
-            </div>
-            <div class="col-md-2 pl-0">
-                <button type="submit" class="btn btn-block btn-primary h-100"><i class="fa fa-search"
-                                                                                 style="margin-right: 5px"></i>Search
-                </button>
+        <div class="row ">
+            <div class="col-md-12">
+                <div class="input-group mb-3">
+                    <input type="search" value="{{$search}}" name="search" placeholder="Search by Order ID"
+                           class="form-control h-100">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit" >Search</button>
+                    </div>
+                </div>
             </div>
 
         </div>
@@ -60,7 +60,7 @@
                 {{--                            <button class="btn btn-outline-secondary btn-sm bulk-wallet-btn">Pay in Bulk</button>--}}
                 {{--                        </div>--}}
                 {{--                    </div>--}}
-                <div class="card-body">
+                <div class="card-body table-responsive">
                     @if (count($orders) > 0)
                         <table class="table table-hover table-borderless">
                             <thead class="border-bottom">

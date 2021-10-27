@@ -23,15 +23,14 @@ use App\Http\Controllers\OrderController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', function () {
-    return view('dashboard');
-})->middleware(['auth.shopify'])->name('home');
+Route::get('/', [HomeController::class,'index'])->middleware(['auth.shopify'])->name('home');
 
 //This will redirect user to login page.
 Route::get('/app/login', function () {
     if (Auth::user()) {
         return redirect()->route('home');
     }
+    return view('shop_login');
     return view('login');
 })->name('login');
 
@@ -55,10 +54,28 @@ Route::group(['middleware' => ['auth.shopify', 'billable']], function () {
     Route::get('/payfast-pay/{id}/success',[OrderController::class,'payfast_paid_success'])->name('store.payfast.pay.success');
     Route::get('/finance',[OrderController::class,'financeIndex'])->name('store.finance.index');
 
-});
 
+});
+Route::get('test',function (){
+  $shop =  auth()->user();
+  $data = [
+
+  ];
+//    dd($shop->api()->rest('POST','/admin/webhooks.json',[
+//        'webhook' => [
+//            'topic' => 'orders/create',
+//            'address' => 'https://phpstack-670512-2197626.cloudwaysapps.com/webhook/orders-create',
+//            "format"=> "json"
+//        ]
+//    ]));
+});
 Auth::routes();
 Route::group(['middleware' => ['auth']], function () {
+//    Refund request
+
+    Route::get('/refund-request',[OrderController::class,'refund_request'])->name('store.order.refund.request');
+
+
     Route::get('/categories', [CategoryController::class, 'index'])->name('category.all');
     Route::get('/categories/create', [CategoryController::class, 'create'])->name('category.create');
     Route::post('/categories/save', [CategoryController::class, 'save'])->name('category.save');

@@ -23,7 +23,7 @@
 </div>
 <!-- wrapper -->
 <div class="wrapper">
-    <div class="section-authentication-register d-flex align-items-center justify-content-center">
+    <div class=" d-flex align-items-center justify-content-center">
         <div class="row">
             <div class="col-12 col-lg-10 mx-auto">
                 <div class="card radius-15">
@@ -116,7 +116,7 @@
                         </div>
                         <div class="col-lg-6">
                             <img src="{{ asset('assets/images/login-images/register-frent-img.jpg')}}"
-                                 class="card-img login-img h-100" alt="...">
+                                 class="card-img login-img h-100 d-lg-block d-md-block d-sm-none d-none" alt="...">
                         </div>
                     </div>
                     <!--end row-->

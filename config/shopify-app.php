@@ -305,6 +305,16 @@ return [
     */
 
     'webhooks' => [
+
+        [
+            'topic' => 'orders/create',
+            'address' => 'https://phpstack-670512-2197626.cloudwaysapps.com/webhook/orders-create'
+        ],
+
+        'topic' => 'app/uninstalled',
+        'address' => 'https://phpstack-670512-2197626.cloudwaysapps.com/webhook/app-uninstalled'
+
+
         /*
             [
                 'topic' => env('SHOPIFY_WEBHOOK_1_TOPIC', 'orders/create'),

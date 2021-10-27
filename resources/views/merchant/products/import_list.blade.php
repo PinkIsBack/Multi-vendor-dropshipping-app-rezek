@@ -10,20 +10,19 @@
     </div>
     @include('layouts.flash_message')
     <form action="">
-        <div class="row mb-3">
-            <div class="col-md-10 pr-0">
-                <input type="search" value="{{$search}}" name="search" placeholder="Search By Keyword"
+        <div class="row">
+        <div class="col-md-12">
+            <div class="input-group mb-3">
+                <input type="search" value="{{$search}}" name="search" placeholder="Search by keyword"
                        class="form-control h-100">
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="submit" >Search</button>
+                </div>
             </div>
-            <div class="col-md-2 pl-0">
-                <button type="submit" class="btn btn-block btn-primary h-100"><i class="fa fa-search"
-                                                                                 style="margin-right: 5px"></i>Search
-                </button>
-            </div>
-
+        </div>
         </div>
     </form>
-    <p><b>Note: </b>For johannesburg and pretoria shipping rates are $59. All other locations are $99</p>
+    <p><b>Note: </b>For johannesburg and pretoria shipping rates are {{ \App\Helpers\AppHelper::currency() }} 59. All other locations are {{ \App\Helpers\AppHelper::currency() }} 99</p>
     @if(count($products) > 0)
         @foreach($products as $index => $product)
 
@@ -218,7 +217,7 @@
                                             </td>
                                             <td class="text-center">
                                                 <img class="img-avatar " style="border: 1px solid whitesmoke"
-                                                     src="{{ $image->optimized_image }}">
+                                                     src="{{ asset($image->src) }}">
                                             </td>
                                             <td>
                                                 <input type="text" class="form-control js-retailer-product-price-update"

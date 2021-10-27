@@ -147,12 +147,13 @@ $(document).ready(function () {
         }
     });
     /* Admin Module - Dropzone Click JS */
-    $('body').on('click','.dropzone',function () {
-        $('.images-upload').trigger('click');
-    });
+    // $('body').on('click','.dropzone',function () {
+        // $('.images-upload').trigger('click');
+    // });
 
     var storedFiles = [];
     /* Admin Module - Images UPLOAD JS */
+ /*
     $('body').on('change','.images-upload',function (e) {
         var files = e.target.files;
         var filesArr = Array.prototype.slice.call(files);
@@ -176,7 +177,7 @@ $(document).ready(function () {
             reader.readAsDataURL(f);
         });
     });
-
+*/
     /* Admin Module - Add Option of Variants JS */
     $('body').on('click','.add-option-div',function () {
         $(this).parent().hide();

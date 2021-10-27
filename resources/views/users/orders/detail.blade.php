@@ -4,6 +4,20 @@
         <div class="col-md-6 col-sm-6 col-xs-6">
             <span class="font-weight-bold font-20 vertical-align-middle">Order Detail</span>
         </div>
+        <div class="col-md-6 col-sm-6 col-xs-6 text-right">
+            @if($order->paid == 1)
+                @if($order->refund_request == 1 && $order->is_refunded == 0)
+
+                    <a href="{{route('store.order.refund.request')}}/?id={{$order->id}}&admin=1&accept=1" onclick="if(confirm('Are you sure?'){return true;}else{return false;})" class="btn btn-sm btn-danger">Refund</a>
+                    <a href="{{route('store.order.refund.request')}}/?id={{$order->id}}&admin=1&cancel=1" class="btn btn-sm btn-success">Cancel</a>
+                @endif
+                    @if($order->is_refunded == 1)
+                        <button class="btn btn-sm btn-success" disabled>Refund Approved</button>
+                    @elseif($order->is_refunded == 2)
+                        <button class="btn btn-sm btn-danger" disabled>Refund Rejected</button>
+                    @endif
+            @endif
+        </div>
     </div>
     @include('layouts.flash_message')
 

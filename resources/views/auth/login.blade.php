@@ -21,7 +21,7 @@
 </div>
 <!-- wrapper -->
 <div class="wrapper">
-    <div class="section-authentication-login d-flex align-items-center justify-content-center">
+    <div class="d-flex align-items-center justify-content-center">
         <div class="row">
             <div class="col-12 col-lg-10 mx-auto">
                 <div class="card radius-15">
@@ -31,6 +31,17 @@
                                 <div class="text-center">
                                     <img src="{{ asset('assets/images/logo-icon.png')}}" width="80" alt="">
                                     <h3 class="mt-4 font-weight-bold">Welcome</h3>
+                                </div>
+                                <div class="input-group shadow-sm rounded mt-5">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-transparent border-0 cursor-pointer">
+                                            <img src="https://cdn3.iconfinder.com/data/icons/social-media-2068/64/_shopping-512.png" alt="" width="16">
+                                        </span>
+                                    </div>
+                                    <input type="button"  class="form-control  border-0"  onclick="window.location.href='{{url('app/login')}}'" value="Log in with Shopify store">
+                                </div>
+                                <div class="login-separater text-center"> <span>OR LOGIN WITH EMAIL</span>
+                                    <hr>
                                 </div>
                                 <form method="POST" action="{{ route('login') }}">
                                     @csrf
@@ -78,7 +89,7 @@
                             </div>
                         </div>
                         <div class="col-lg-6">
-                            <img src="{{ asset('assets/images/login-images/login-frent-img.jpg')}}" class="card-img login-img h-100"
+                            <img src="{{ asset('assets/images/login-images/login-frent-img.jpg')}}" class="card-img login-img h-100 d-md-block d-sm-none "
                                  alt="...">
                         </div>
                     </div>

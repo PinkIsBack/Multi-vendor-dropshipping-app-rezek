@@ -103,7 +103,8 @@
             <div class="menu-title">Categories</div>
         </a>
     </li>
-    <li>
+
+{{-- <li>
         <a class="has-arrow" href="javascript:;" aria-expanded="false">
             <div class="parent-icon icon-color-11"><i class="bx bx-shopping-bag"></i>
             </div>
@@ -113,7 +114,7 @@
             <li><a href="{{ route('shipping.areas') }}"><i class="bx bx-right-arrow-alt"></i>Areas</a></li>
             <li><a href="{{ route('shipping.routes') }}"><i class="bx bx-right-arrow-alt"></i>Route & Pricing</a></li>
         </ul>
-    </li>
+    </li>   --}}
     <li>
         <a class="has-arrow" href="javascript:;" aria-expanded="false">
             <div class="parent-icon icon-color-7"><i class="bx bx-lock"></i>

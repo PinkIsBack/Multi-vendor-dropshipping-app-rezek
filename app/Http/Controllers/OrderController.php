@@ -340,9 +340,52 @@ class OrderController extends Controller
 
     }
 
+    public function refund_request(Request $request){
+        $order = MerchantOrder::where('id',$request->id)->firstOrfail();
+        if($request->has('admin')){
+           if($request->has('cancel')){
+               $order->is_refunded = 2;
+               $order->save();
+
+               $order_log = new OrderLog();
+               $order_log->message = "Refund request cancelled by Admin for Order ".$order->name." at ".now() ;
+               $order_log->status = "Refund Request Rejected";
+               $order_log->merchant_order_id = $order->id;
+               $order_log->save();
+               return redirect()->back()->with('success','Refund request cancelled successfully');
+           }
+           if($request->has('accept')){
+               $order->is_refunded = 1;
+               $order->save();
+
+               $order_log = new OrderLog();
+               $order_log->message = "Refund request accepted by Admin for Order ".$order->name." at ".now() ;
+               $order_log->status = "Refund Request Approved";
+               $order_log->merchant_order_id = $order->id;
+               $order_log->save();
+               return redirect()->back()->with('success','Refund request accepted successfully');
+           }
+
+
+        }
+
+      $order->refund_request = 1;
+      $order->save();
+        $order_log = new OrderLog();
+        $order_log->message = "Refund request created for Order ".$order->name." at ".now() ;
+        $order_log->status = "Refund requested";
+        $order_log->merchant_order_id = $order->id;
+        $order_log->save();
+      return redirect()->back()->with('success','Refund request created successfully');
+
+    }
+
 //    finance
 
-
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function financeIndex(Request $request)
     {
         $shop = Auth::user();
