@@ -60,10 +60,13 @@
                 </div>
             @endforeach
         </div>
-        <div class="row">
-            <div class="col-md-12 text-right" style="font-size: 17px">
-                {!! $products->appends(request()->input())->render() !!}
-            </div>
+{{--        <div class="row">--}}
+{{--            <div class="col-md-12 text-right" style="font-size: 17px">--}}
+{{--                {!! $products->appends(request()->input())->render() !!}--}}
+{{--            </div>--}}
+{{--        </div>--}}
+        <div class="pagination">
+            {{ $products->links("pagination::bootstrap-4") }}
         </div>
     @else
         <div class="card">

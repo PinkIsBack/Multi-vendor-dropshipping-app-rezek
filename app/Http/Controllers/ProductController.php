@@ -22,7 +22,7 @@ class ProductController extends Controller
     {
         $user = Auth::user();
         if ($user->hasRole('Admin')) {
-            $products = Product::where('status', 1)->paginate(50);
+//            $products = Product::where('status', 1)->paginate(50);
 
             $productQuery = Product::where('status', 1)->latest()->newQuery();
             if ($request->has('search')) {

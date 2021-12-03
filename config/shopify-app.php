@@ -310,9 +310,10 @@ return [
             'topic' => 'orders/create',
             'address' => 'https://zadropshipping.com/webhook/orders-create'
         ],
-
-        'topic' => 'app/uninstalled',
-        'address' => 'https://zadropshipping.com/webhook/app-uninstalled'
+        [
+            'topic' => 'app/uninstalled',
+            'address' => 'https://zadropshipping.com/webhook/app-uninstalled'
+        ],
 
 
         /*
