@@ -226,17 +226,19 @@ class ProductController extends Controller
 //Delete Product with Variants
     public function delete($id)
     {
-        $product = Product::find($id);
+        $product = Product::where('id',$id)->first();
         $variants = Variant::where('product_id', $id)->get();
         foreach ($variants as $variant) {
             $variant->delete();
         }
-        foreach ($product->has_images as $image) {
-            $image->delete();
+        if($product != null){
+            foreach ($product->has_images as $image) {
+                $image->delete();
+            }
+            $product->has_categories()->detach();
+            $product->has_subcategories()->detach();
+            $product->delete();
         }
-        $product->has_categories()->detach();
-        $product->has_subcategories()->detach();
-        $product->delete();
         return redirect()->back()->with('warning', 'Product Deleted with Variants Successfully');
     }
 
