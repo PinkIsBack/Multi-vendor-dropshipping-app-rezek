@@ -262,7 +262,7 @@
 
 
                             <td>
-                                {{number_format($order->supplier_pay,2)}} USD
+                                {{number_format($order->supplier_pay,2)}} ZAR
 
                             </td>
 

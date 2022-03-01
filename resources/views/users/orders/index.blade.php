@@ -34,9 +34,10 @@
                             <thead class="border-bottom">
                             <tr>
 
-
+                                <th>#</th>
                                 <th>Name</th>
                                 <th>Order#</th>
+                                <th>Merchant </th>
                                 <th>Order Date</th>
                                 <th>Price</th>
                                 <th>Cost</th>
@@ -49,12 +50,16 @@
                             @foreach($orders as $index => $order)
                                 <tbody class="">
                                 <tr>
+                                    <td>{{ ++$index }}</td>
                                     <td class="font-w600">
                                         <a href="{{route('admin.order.detail',$order->id)}}">{{ $order->name }}</a>
                                     </td>
                                         <td>
                                             {{$order->admin_shopify_name}}
                                         </td>
+                                    <td>
+                                        {{optional($order->has_store)->name}}
+                                    </td>
                                     <td>
                                         {{date_create($order->shopify_created_at)->format('d m, Y h:i a') }}
 
@@ -157,7 +162,8 @@
 
                         <div class="row">
                             <div class="col-md-12 text-center" style="font-size: 17px">
-                                {!! $orders->appends(request()->input())->links() !!}
+                                {{ $orders->links("pagination::bootstrap-4") }}
+{{--                                {!! $orders->appends(request()->input())->links() !!}--}}
                             </div>
                         </div>
                     @else

@@ -30,7 +30,7 @@ class HomeController extends Controller
         $data = [];
         if(auth()->user()->hasRole('Admin')){
 
-            $order = MerchantOrder::orderBy('id','desc')->get();
+            $order = MerchantOrder::where('paid', 1)->orderBy('id','desc')->get();
             $data = [
                 'user_merchant' => User::role('Merchant')->count(),
                 'user_supplier' => User::role('Supplier')->count(),

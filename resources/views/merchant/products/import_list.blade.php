@@ -11,15 +11,15 @@
     @include('layouts.flash_message')
     <form action="">
         <div class="row">
-        <div class="col-md-12">
-            <div class="input-group mb-3">
-                <input type="search" value="{{$search}}" name="search" placeholder="Search by keyword"
-                       class="form-control h-100">
-                <div class="input-group-append">
-                    <button class="btn btn-primary" type="submit" >Search</button>
+            <div class="col-md-12">
+                <div class="input-group mb-3">
+                    <input type="search" value="{{$search}}" name="search" placeholder="Search by keyword"
+                           class="form-control h-100">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit" >Search</button>
+                    </div>
                 </div>
             </div>
-        </div>
         </div>
     </form>
     <p><b>Note: </b>For johannesburg and pretoria shipping rates are {{ \App\Helpers\AppHelper::currency() }} 59. All other locations are {{ \App\Helpers\AppHelper::currency() }} 99</p>
@@ -66,6 +66,10 @@
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="js-gallery">
+                                        @php
+                                            $images = [];
+                                            $image = '';
+                                        @endphp
                                         @if($product->has_images()->count() > 0)
                                             @php
                                                 $images = $product->has_images()->orderBy('position')->get();
@@ -217,7 +221,7 @@
                                             </td>
                                             <td class="text-center">
                                                 <img class="img-avatar " style="border: 1px solid whitesmoke"
-                                                     src="{{ asset($image->src) }}">
+                                                     src="{{ asset(optional($image)->src) }}">
                                             </td>
                                             <td>
                                                 <input type="text" class="form-control js-retailer-product-price-update"

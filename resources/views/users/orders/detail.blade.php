@@ -143,7 +143,7 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                {{$item->supplier->name}}
+                                                {{optional($item->supplier)->name}}
                                             </td>
                                             <td>{{ \App\Helpers\AppHelper::currency() }}{{number_format($item->supplier_price,2)}}  * {{$item->quantity}}</td>
                                             <td>{{ \App\Helpers\AppHelper::currency() }}{{number_format($item->cost,2)}}  * {{$item->quantity}}</td>
@@ -216,7 +216,7 @@
                                     Total Cost
                                 </td>
                                 <td align="right">
-                                    {{number_format($order->cost_to_pay + $order->shipping_price  ,2)}} USD
+                                    {{number_format($order->cost_to_pay + $order->shipping_price  ,2)}} ZAR
                                 </td>
                             </tr>
                             <tr>
@@ -241,6 +241,10 @@
                         </table>
                 </div>
             </div>
+
+
+
+
             {{--            Logs--}}
 
             @include('inc.order_logs')

@@ -259,6 +259,47 @@
                 </div>
             </div>
 
+            @foreach($order->tracking()->get() as $tracking)
+            <div class="card radius-15">
+                <div class="card-header">
+                    <h6 class="card-title">Tracking</h6>
+                </div>
+                <div class="card-body">
+                    <table class="table table-borderless table-hover">
+                        <tbody class="js-warehouse-shipping">
+                        <tr>
+                            <td>
+                                Courier Name
+                            </td>
+                            <td align="right">
+                                {{$tracking->courier_name }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Tracking Number
+                            </td>
+                            <td align="right">
+                                {{$tracking->number}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Tracking URL
+                            </td>
+                            <td align="right">
+                                {{$tracking->url}}
+                            </td>
+                        </tr>
+
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            @endforeach
+
 {{--            Logs--}}
 
 @include('inc.order_logs')

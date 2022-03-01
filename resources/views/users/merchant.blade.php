@@ -95,7 +95,7 @@
                     </tbody>
                 </table>
 
-                {!! $data->render() !!}
+                {{ $data->links("pagination::bootstrap-4") }}
             </div>
         </div>
     </div>

@@ -81,7 +81,7 @@
                                         <td style="width: 30%">
                                             <p>{{$item->name}} <br> <span class="text-muted">SKU : {{$item->sku}}</span></p>
                                         </td>
-                                        <td>  {{number_format($item->supplier_price,2)}} USD</td>
+                                        <td>  {{number_format($item->supplier_price,2)}} ZAR</td>
                                         <td><div class="form-group">
                                                 <div class="input-group">
                                                     <input type="hidden" name="item_id[]" value="{{$item->id}}">

@@ -87,22 +87,22 @@
                                     </td>
 
                                     <td>
-                                        {{number_format($order->total_price,2)}} USD
+                                        {{number_format($order->total_price,2)}} ZAR
                                     </td>
                                     <td>
-                                        {{number_format($order->cost_to_pay,2)}} USD
+                                        {{number_format($order->cost_to_pay,2)}} ZAR
 
                                     </td>
                                     <td>
-                                        {{number_format($order->shipping_price,2)}} USD
+                                        {{number_format($order->shipping_price,2)}} ZAR
 
                                     </td>
                                     <td>
-                                        {{number_format($order->cost_to_pay + $order->shipping_price,2)}} USD
+                                        {{number_format($order->cost_to_pay + $order->shipping_price,2)}} ZAR
 
                                     </td>
                                     <td>
-                                        {{number_format($order->total_price - $order->cost_to_pay,2)}} USD
+                                        {{number_format($order->total_price - $order->cost_to_pay,2)}} ZAR
                                     </td>
                                     <td>
                                         @if($order->status == 'Paid')

@@ -25,7 +25,7 @@ class PaymentController extends Controller
         try{
             return Paystack::getAuthorizationUrl()->redirectNow();
         }catch(\Exception $e) {
-            dd($e->getMessage());
+//            dd($e->getMessage());
            $test = preg_replace("/[\r\n]*/","",$e->getMessage());
 
 //           dd($e->getCode() );
@@ -54,7 +54,7 @@ class PaymentController extends Controller
                     $order->status = 'Paid';
                     $order->save();
                     $order_log = new OrderLog();
-                    $order_log->message = "An amount of " . ($order->cost_to_pay + $order->shipping_price) ." USD has been processed successfully by ".$paymentDetails->data->channel." on " . now();
+                    $order_log->message = "An amount of " . ($order->cost_to_pay + $order->shipping_price) ." ". \App\Helpers\AppHelper::currency()." has been processed successfully by ".$paymentDetails->data->channel." on " . now();
                     $order_log->status = "Order Paid";
                     $order_log->merchant_order_id = $order->id;
                     $order_log->save();

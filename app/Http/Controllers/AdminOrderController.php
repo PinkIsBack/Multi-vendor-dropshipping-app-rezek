@@ -26,7 +26,7 @@ class AdminOrderController extends Controller
             $orders->where('status', 'cancelled');
         }
 
-        $orders = $orders->orderBy('name', 'DESC')->paginate(30);
+        $orders = $orders->orderBy('id', 'DESC')->paginate(30);
         return view('users.orders.index')->with([
             'orders' => $orders,
             'search' => $request->input('search')
