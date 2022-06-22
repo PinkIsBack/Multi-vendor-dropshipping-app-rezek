@@ -2,7 +2,7 @@
 @section('content')
     <div class="row mb-3">
         <div class="col-md-6 col-sm-6 col-xs-6">
-            <span class="font-weight-bold font-20 vertical-align-middle">Order Detail</span>
+            <span class="font-weight-bold font-20 vertical-align-middle">Order Detail ({{$order->admin_shopify_name}})</span>
         </div>
         <div class="col-md-6 col-sm-6 col-xs-6 text-right">
             @if($order->paid == 1)

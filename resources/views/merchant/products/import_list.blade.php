@@ -231,7 +231,7 @@
                                             </td>
                                             <td><input type="text" class="form-control" readonly
                                                        value="{{$product->cost}}" placeholder="$0.00"></td>
-                                            <td class="drop-shipping text-center">N/A</td>
+{{--                                            <td class="drop-shipping text-center">N/A</td>--}}
 
                                             <td><input type="text" readonly class="form-control"
                                                        value="{{$product->quantity}}" name="quantity" placeholder="0">
@@ -335,7 +335,7 @@
         @endforeach
         <div class="row">
             <div class="col-md-12 text-right" style="font-size: 17px">
-                {!! $products->appends(request()->input())->render() !!}
+                {!! $products->links("pagination::bootstrap-4")!!}
             </div>
         </div>
     @else

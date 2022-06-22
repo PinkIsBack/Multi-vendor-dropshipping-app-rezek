@@ -148,7 +148,7 @@ class OrdersCreateJob implements ShouldQueue
                                 $new_line->fulfillable_quantity = $item->fulfillable_quantity;
                                 $new_line->fulfillment_status = $item->fulfillment_status;
 
-                                $merchant_product = MerchantProduct::where('shopify_id', $item->product_id)->first();
+                                $merchant_product = MerchantProduct::where('shopify_id', $item->product_id)->where('toShopify',1)->first();
                                 if ($merchant_product != null) {
                                     $new_line->fulfilled_by = $merchant_product->fulfilled_by;
                                     $new_line->linked_product_id = $merchant_product->id;

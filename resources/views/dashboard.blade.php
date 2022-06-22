@@ -95,6 +95,7 @@
                     <thead>
                     <tr>
                         <th>Order Id</th>
+                        <th>Order#</th>
                         <th>Price</th>
                         <th>Cost</th>
                         <th>Date</th>
@@ -107,6 +108,7 @@
                         <td class="font-w600">
                             <a href="{{route('store.order.detail',$order->id)}}">{{ $order->name }}</a>
                         </td>
+                        <td>{{$order->admin_shopify_name}}</td>
                         <td>
                             {{number_format($order->total_price,2)}}  {{ \App\Helpers\AppHelper::currency() }}
                         </td>
@@ -380,6 +382,7 @@
                     <thead>
                     <tr>
                         <th>Order Id</th>
+                        <th>Order#</th>
                         <th>Price</th>
                         <th>Cost</th>
                         <th>Date</th>
@@ -392,6 +395,7 @@
                             <td class="font-w600">
                                 <a href="{{route('store.order.detail',$order->id)}}">{{ $order->name }}</a>
                             </td>
+                            <td>{{$order->admin_shopify_name}}</td>
                             <td>
                                 {{number_format($order->total_price,2)}}  {{ \App\Helpers\AppHelper::currency() }}
                             </td>

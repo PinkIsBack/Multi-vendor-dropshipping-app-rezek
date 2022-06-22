@@ -12,7 +12,7 @@ class InventoryController extends Controller
         $data = [
             'fulfillment_service' => [
                 'name' => 'ZADropship',
-                'callback_url' => 'https://app.minnitz.com.pk',
+                'callback_url' => 'https://zadropshipping.com',
                 "inventory_management" => true,
                 "tracking_support" => false,
                 "requires_shipping_method" => false,

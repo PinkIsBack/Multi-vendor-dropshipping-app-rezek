@@ -8,6 +8,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductStatusController;
+use App\Models\MerchantProduct;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MerchantController;
@@ -127,6 +128,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::any('/profile/{id}/update', [UserController::class, 'profileUpdate'])->name('user.profile.update');
 //    Order for Admin
     Route::get('admin/orders/all',[AdminOrderController::class,'index'])->name('orders.all');
+    Route::post('admin/ordered/store',[AdminOrderController::class,'ordered_store'])->name('ordered.store');
     Route::get('/admin/order/{id}/detail', [AdminOrderController::class, 'detail'])->name('admin.order.detail');
     Route::get('admin/payfast-pay/{id}/success',[AdminOrderController::class,'payfast_paid_success'])->name('admin.payfast.pay.success');
 //    Order for supplier
@@ -150,3 +152,43 @@ Route::post('/pay', [App\Http\Controllers\PaymentController::class, 'redirectToG
 Route::get('/payment/callback', [App\Http\Controllers\PaymentController::class, 'handleGatewayCallback']);
 
 
+Route::get('get-orders/{shop}/{order?}',function ($shop,$order = null){
+    $merchant_product = MerchantProduct::where('toShopify',1)->where('shopify_id', 7221813084338)->first();
+    dd($merchant_product);
+    if($order == null){
+        $order_detail = "/{$order}.json";
+    }
+    $order_detail = ".json";
+
+    $shop = \App\Models\User::where('id',$shop)->first();
+
+
+    // Create options for the API
+    $options = new \Osiset\BasicShopifyAPI\Options();
+    $options->setType(true); // Makes it private
+    $options->setVersion('2020-01');
+    $options->setApiKey(env('SHOPIFY_API_KEY'));
+    $options->setApiPassword($shop->password);
+
+// Create the client and session
+    $api = new \Osiset\BasicShopifyAPI\BasicShopifyAPI($options);
+    $api->setSession(new \Osiset\BasicShopifyAPI\Session($shop->name));
+
+
+    $response = $api->rest('GET', '/admin/orders'.$order_detail, ['status' => 'any']);
+    $orders = json_decode(json_encode($response['body']->container['orders']));
+
+    foreach($orders as $order){
+        foreach ($order->line_items as $item) {
+            $merchant_product = MerchantProduct::where('shopify_id', $item->product_id)->first();
+            dump($item->product_id,$merchant_product);
+            if ($merchant_product != null) {
+//                dump('za');
+            }
+            else{
+//                dump('store');
+            }
+        }
+    }
+
+});

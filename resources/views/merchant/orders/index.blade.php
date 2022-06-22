@@ -162,11 +162,13 @@
                             </div>
                         </div>
                     @else
-                        <p>No Orders Found <a href="{{route('store.sync.orders')}}"
-                                              class="btn btn-sm btn-primary" style="font-size: 12px;float: right"
-                                              type="button" data-toggle="tooltip" title=""
-                                              data-original-title="Sync Orders"><i class="fa fa-sync"></i> Sync New
-                                Orders</a></p>
+                        <p>No Orders Found
+{{--                            <a href="{{route('store.sync.orders')}}"--}}
+{{--                                              class="btn btn-sm btn-primary" style="font-size: 12px;float: right"--}}
+{{--                                              type="button" data-toggle="tooltip" title=""--}}
+{{--                                              data-original-title="Sync Orders"><i class="fa fa-sync"></i> Sync New--}}
+{{--                                Orders</a>--}}
+                        </p>
                     @endif
                 </div>
             </div>

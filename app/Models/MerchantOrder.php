@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 class MerchantOrder extends Model
 {
     use HasFactory;
-
+protected $guarded = [];
     public function total_fulfillable($order){
         return $order->line_items->whereIn('fulfilled_by',['Fantasy','ZADropship'])->sum('fulfillable_quantity');
     }

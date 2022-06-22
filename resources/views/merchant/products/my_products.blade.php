@@ -53,7 +53,7 @@
         </div>
         <div class="row">
             <div class="col-md-12 text-right" style="font-size: 17px">
-                {!! $products->appends(request()->input())->render() !!}
+                {!! $products->links("pagination::bootstrap-4") !!}
             </div>
         </div>
     @else

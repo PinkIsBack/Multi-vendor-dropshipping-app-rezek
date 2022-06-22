@@ -21,7 +21,7 @@ class MerchantController extends Controller
         if ($request->has('search')) {
             $productQuery->where('title', 'LIKE', '%' . $request->input('search') . '%');
         }
-        $products = $productQuery->paginate(15);
+        $products = $productQuery->orderBy('id','desc')->paginate(15);
         return view('merchant.products.my_products')->with([
             'products' => $products,
             'shop' => $shop,
@@ -53,7 +53,7 @@ class MerchantController extends Controller
         if ($request->has('search')) {
             $productQuery->where('title', 'LIKE', '%' . $request->input('search') . '%');
         }
-        $products = $productQuery->paginate(15);
+        $products = $productQuery->orderBy('id','DESC')->paginate(15);
         return view('merchant.products.import_list')->with([
             'products' => $products,
             'shop' => $shop,

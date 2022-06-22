@@ -8,12 +8,20 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminOrderController extends Controller
 {
+    public function ordered_store(Request $request){
+        $order = MerchantOrder::find($request->id);
+        $order->update($request->except('_token'));
+        return redirect()->back()->with('success','Comments added!');
+    }
     public function index(Request $request){
 
 
-        $orders = MerchantOrder::where('paid', 1)->newQuery();
+        $orders = MerchantOrder::whereIn('paid', [1,0])->newQuery();
         if ($request->has('search')) {
-            $orders->where('name', 'LIKE', '%' . $request->input('search') . '%');
+            $orders->where(function ($q) use ($request){
+                $q->where('name', 'LIKE', '%' . $request->input('search') . '%')
+                    ->orWhere('admin_shopify_name', 'LIKE', '%' . $request->input('search') . '%');
+            });
         }
 
         if ($request->has('unpaid')) {

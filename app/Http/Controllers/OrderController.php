@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\AdminSetting;
+use App\Models\FulfillmentLineItem;
 use App\Models\MerchantCustomer;
 use App\Models\MerchantLineItems;
 use App\Models\MerchantOrder;
@@ -144,7 +145,7 @@ class OrderController extends Controller
                             $new_line->fulfillable_quantity = $item->fulfillable_quantity;
                             $new_line->fulfillment_status = $item->fulfillment_status;
 
-                            $merchant_product = MerchantProduct::where('shopify_id', $item->product_id)->first();
+                            $merchant_product = MerchantProduct::where('shopify_id', $item->product_id)->where('toShopify',1)->first();
                             if ($merchant_product != null) {
                                 $new_line->fulfilled_by = $merchant_product->fulfilled_by;
                                 $new_line->linked_product_id = $merchant_product->id;
@@ -185,7 +186,7 @@ class OrderController extends Controller
                         $billing = json_decode($new->billing_address);
                         $shipping = json_decode($new->shipping_address);
                         if($shipping != null){
-                            if($shipping->city == 'johannesburg' || $shipping->city == 'pretoria'){
+                            if(strtolower($shipping->city) == 'johannesburg' || strtolower($shipping->city) == 'pretoria'){
                                 $shipping_price = 59;
                             }
                             else{
@@ -193,7 +194,7 @@ class OrderController extends Controller
                             }
                         }
                         elseif ($billing != null){
-                            if($billing->city == 'johannesburg' || $billing->city == 'pretoria'){
+                            if(strtolower($billing->city) == 'johannesburg' || strtolower($billing->city) == 'pretoria'){
                                 $shipping_price = 59;
                             }
                             else{
@@ -280,7 +281,7 @@ class OrderController extends Controller
                                     foreach ($fulfillment->line_items as $item) {
                                         $line_item = MerchantLineItems::where('merchant_product_variant_id', $item->id)->first();
                                         if ($line_item != null) {
-                                            $fulfillment_line_item = new MerchantLineItems();
+                                            $fulfillment_line_item = new FulfillmentLineItem();
                                             if ($item->fulfillable_quantity == 0) {
                                                 $fulfillment_line_item->fulfilled_quantity = $line_item->quantity;
                                             } else {

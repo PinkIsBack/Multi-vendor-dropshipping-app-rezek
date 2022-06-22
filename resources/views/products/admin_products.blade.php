@@ -13,7 +13,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="input-group mb-3">
-                    <input type="search" value="{{$search}}" name="search" placeholder="Search by Order ID"
+                    <input type="search" value="{{$search}}" name="search" placeholder="Search by Product title"
                            class="form-control h-100">
                     <div class="input-group-append">
                         <button class="btn btn-primary" type="submit" >Search</button>

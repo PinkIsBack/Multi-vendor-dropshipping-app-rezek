@@ -145,6 +145,10 @@
                                     </td>
                                     <td class="text-right">
                                         <div class="btn-group">
+                                            <a href="#"
+                                               data-toggle="modal"
+                                               data-target="#ordered_modal_{{$index}}"
+                                               class="btn btn-sm {{$order->is_ordered?'btn-success':'btn-warning'}}" type="button">Ordered</a>
                                             <a href="{{route('admin.order.detail',$order->id)}}"
                                                class="btn btn-sm btn-primary" type="button">View</a>
                                             <a
@@ -156,7 +160,55 @@
 
                                 </tr>
                                 </tbody>
+                                {{--    MODAL--}}
+                                <div class="modal fade" id="ordered_modal_{{$index}}" tabindex="-1" role="dialog">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Ordered</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">×</span>
+                                                </button>
+                                            </div>
+                                            <form method="post" action="{{route('ordered.store')}}">
+                                                <input type="hidden" name="id" value="{{$order->id}}">
+                                                @csrf
+                                                <input type="hidden" name="is_ordered" value="1">
+                                                <div class="modal-body">
 
+                                                    <div class="row">
+                                                        <div class="col-xs-12 col-sm-12 col-md-12">
+                                                            <div class="form-group">
+                                                                <label>Order Number</label>
+                                                                <input type="text" name="ordered_number" value="{{$order->ordered_number}}" id="" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-12 col-md-12">
+                                                            <div class="form-group">
+                                                                <label>Ordered Date</label>
+                                                                <input type="date" name="ordered_date" value="{{$order->ordered_date}}" id="" class="form-control">
+                                                              </div>
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-12 col-md-12">
+                                                            <div class="form-group">
+                                                                <label>Comments</label>
+                                                                <textarea class="form-control" name="comment" id="" cols="10" rows="10">{{$order->comment}}</textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
+                                                    </button>
+                                                    <button type="submit" class="btn btn-primary">Save</button>
+                                                </div>
+
+                                            </form>>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {{--    END MODAL--}}
                             @endforeach
                         </table>
 
@@ -173,6 +225,9 @@
             </div>
         </div>
     </div>
+
+
+
 
     {{--    <form action="{{route('store.orders.bulk.payment')}}" id="bulk-payment" method="post">--}}
     {{--        @csrf--}}

@@ -196,7 +196,7 @@
 
                         <div class="row">
                             <div class="col-md-12 text-center" style="font-size: 17px">
-                                {!! $finances->appends(request()->input())->links() !!}
+                                {!! $finances->appends(request()->input())->links("pagination::bootstrap-4") !!}
                             </div>
                         </div>
                     @else
