@@ -328,11 +328,11 @@ return [
 
         [
             'topic' => 'orders/create',
-            'address' => 'https://zadropshipping.com/webhook/orders-create'
+            'address' => env('APP_URL').'/webhook/orders-create'
         ],
         [
             'topic' => 'app/uninstalled',
-            'address' => 'https://zadropshipping.com/webhook/app-uninstalled'
+            'address' => env('APP_URL').'/webhook/app-uninstalled'
         ],
 
 

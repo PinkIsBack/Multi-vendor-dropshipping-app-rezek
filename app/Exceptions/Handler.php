@@ -36,6 +36,10 @@ class Handler extends ExceptionHandler
     {
         $this->reportable(function (Throwable $e) {
             //
+            if(strpos($e->getFile(),'ShopifyApp/Http/Middleware/AuthShopify.php')){
+                return redirect()->route('login');
+            }
+
         });
     }
 }
