@@ -1,3 +1,25 @@
+// for bulk product change status
+$(".all-checkbox").on("change",function (){
+    if ($(this).is(':checked')) {
+        $('.input-checkbox').prop('checked', true);
+        $('.action-div').show();
+    } else {
+        $('.input-checkbox').prop('checked', false);
+        $('.action-div').hide();
+    }
+});
+$(".input-checkbox").on("change",function (){
+    if ($(this).is(':checked')) {
+        $('.action-div').show();
+    } else {
+        if ($('.input-checkbox:checked').length === 0) {
+            $('.action-div').hide();
+        }
+
+    }
+});
+
+
 //App Js
 $(document).ready(function () {
 

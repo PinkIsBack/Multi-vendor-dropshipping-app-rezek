@@ -35,8 +35,15 @@ class SupplierOrderController extends Controller
 
 
         $orders = MerchantOrder::where('paid', 1)->has('supplier_line_item')->newQuery();
+//        if ($request->has('search')) {
+//            $orders->where('name', 'LIKE', '%' . $request->input('search') . '%');
+//        }
+
         if ($request->has('search')) {
-            $orders->where('name', 'LIKE', '%' . $request->input('search') . '%');
+            $orders->where(function ($q) use ($request){
+                $q->where('name', 'LIKE', '%' . $request->input('search') . '%')
+                    ->orWhere('admin_shopify_name', 'LIKE', '%' . $request->input('search') . '%');
+            });
         }
 
         if ($request->has('unpaid')) {

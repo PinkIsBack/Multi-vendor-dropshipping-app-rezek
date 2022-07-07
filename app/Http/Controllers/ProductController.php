@@ -21,6 +21,16 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $user = Auth::user();
+
+        if($request->filled('products_id')){
+            $products = Product::whereIn('id',$request->products_id)->get();
+
+            foreach ($products as $product){
+                $product->admin_status =  $request->status_id;
+                $product->save();
+            }
+        }
+
         if ($user->hasRole('Admin')) {
 //            $products = Product::where('status', 1)->paginate(50);
 

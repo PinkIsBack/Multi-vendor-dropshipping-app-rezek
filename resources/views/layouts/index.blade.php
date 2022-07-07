@@ -117,6 +117,7 @@
         $('.summernote').summernote();
     });
 </script>
+@stack('script')
 </body>
 
 </html>

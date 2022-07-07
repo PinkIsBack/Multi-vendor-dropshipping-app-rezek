@@ -36,6 +36,9 @@ Route::get('/app/login', function () {
 })->name('login');
 
 Route::group(['middleware' => ['auth.shopify', 'billable']], function () {
+    Route::get('/testoment',function (){
+        return redirect()->route('store.order.detail',668)->with('success','Order paid successfully');
+    });
     Route::get('/products', [ProductController::class, 'index'])->name('product.all');
     Route::get('/merchant/product/{id}/import', [MerchantController::class, 'import_to_merchant'])->name('import.product.merchant');
     Route::get('/import/list', [MerchantController::class, 'import_list'])->name('import.product.list');

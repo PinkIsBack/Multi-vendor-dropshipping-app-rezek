@@ -40,9 +40,9 @@
                             @endif
 
                             @if($order->status == 'Paid')
-                                <span class="badge badge-warning text-white"> Unfulfilled</span>
+                                <span class="badge badge-warning text-white"> processing </span>
                             @elseif($order->status == 'unfulfilled')
-                                <span class="badge badge-warning text-white"> {{ucfirst($order->status)}}</span>
+                                <span class="badge badge-warning text-white">processing </span>
                             @elseif($order->status == 'partially-shipped')
                                 <span class="badge " style="background: darkolivegreen;color: white;"> {{ucfirst($order->status)}}</span>
                             @elseif($order->status == 'shipped')
@@ -146,7 +146,7 @@
                                             <td>{{ \App\Helpers\AppHelper::currency() }}{{$item->price}} * {{$item->quantity}} </td>
                                             <td>
                                                 @if($item->fulfillment_status == null)
-                                                    <span class="badge badge-warning text-white"> Unfulfilled</span>
+                                                    <span class="badge badge-warning text-white"> processing </span>
                                                 @elseif($item->fulfillment_status == 'partially-fulfilled')
                                                     <span class="badge badge-danger"> Partially Fulfilled</span>
                                                 @else
@@ -220,16 +220,16 @@
                                 <td ></td>
                                 <td align="right" >
                                     @if($order->paid == 0)
-                                    <form action="https://www.payfast.co.za/eng/process" method="post">
-                                        <input type="hidden" name="merchant_id" value="18424387">
-                                        <input type="hidden" name="merchant_key" value="99ejkvmqtsoq9">
-                                        <input type="hidden" name="amount" value="{{$order->cost_to_pay + $order->shipping_price}}">
-                                        <input type="hidden" name="item_name" value="{{$order->name}}">
-                                        <input type="hidden" name="return_url" value="{{route('store.payfast.pay.success',$order->id)}}">
-                                        <input type="hidden" name="cancel_url" value="{{route('store.order.detail',$order->id)}}">
+{{--                                    <form action="https://www.payfast.co.za/eng/process" method="post">--}}
+{{--                                        <input type="hidden" name="merchant_id" value="18424387">--}}
+{{--                                        <input type="hidden" name="merchant_key" value="99ejkvmqtsoq9">--}}
+{{--                                        <input type="hidden" name="amount" value="{{$order->cost_to_pay + $order->shipping_price}}">--}}
+{{--                                        <input type="hidden" name="item_name" value="{{$order->name}}">--}}
+{{--                                        <input type="hidden" name="return_url" value="{{route('store.payfast.pay.success',$order->id)}}">--}}
+{{--                                        <input type="hidden" name="cancel_url" value="{{route('store.order.detail',$order->id)}}">--}}
 {{--                                        <a href="{{route('store.payfast.pay.success',$order->id)}}" class="btn btn-primary">Pay Now</a>--}}
 {{--                                        <button class="btn btn-primary">Pay Now</button>--}}
-                                    </form>
+{{--                                    </form>--}}
                                         <form method="POST" action="{{ route('pay') }}" accept-charset="UTF-8" class="form-horizontal" role="form">
 
                                                     <input type="hidden" name="email" value="zaecomproviders@gmail.com"> {{-- required --}}
@@ -362,4 +362,15 @@
             @endif
         </div>
     </div>
+    @push('script')
+    @if ("Order paid successfully" == Session::get('success'))
+        <script>
+            Swal.fire(
+                'Good job!',
+                'Thank you your order is now in processing.',
+                'success'
+            );
+        </script>
+    @endif
+    @endpush
 @endsection

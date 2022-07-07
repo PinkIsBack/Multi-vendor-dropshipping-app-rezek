@@ -80,10 +80,10 @@
                                     </td>
                                     <td>
                                         @if($order->status == 'Paid')
-                                            <span class="badge badge-warning text-white"> Unfulfilled</span>
+                                            <span class="badge badge-warning text-white"> processing </span>
                                         @elseif($order->status == 'unfulfilled')
                                             <span
-                                                class="badge badge-warning text-white"> {{ucfirst($order->status)}}</span>
+                                                class="badge badge-warning text-white"> processing </span>
                                         @elseif($order->status == 'partially-shipped')
                                             <span class="badge "
                                                   style="font-size: small;background: darkolivegreen;color: white;"> {{ucfirst($order->status)}}</span>

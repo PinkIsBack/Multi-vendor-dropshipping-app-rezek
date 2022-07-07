@@ -23,12 +23,31 @@
         </div>
     </form>
     @if(count($products) > 0)
+        <form action="">
     <div class="card radius-15">
+        <div class="card-header action-div" style="display: none">
+            <div class="  col-6">
+
+                <div class="input-group mb-3">
+                    <select class="form-control" name="status_id" id="">
+                        @foreach(\App\Models\ProductStatus::all() as $status)
+                            <option value="{{$status->id}}">{{$status->title}}</option>
+                        @endforeach
+                    </select><div class="input-group-append">
+                        <button class="btn btn-primary" type="submit">Save</button>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table mb-0">
                     <thead>
                     <tr>
+                        <th scope="col"><input type="checkbox" class="all-checkbox"></th>
                         <th scope="col">#</th>
                         <th scope="col"></th>
                         <th scope="col">Title</th>
@@ -44,6 +63,7 @@
 
                     @foreach($products as $index => $product)
                         <tr>
+                            <td><input type="checkbox" name="products_id[]" value="{{$product->id}}" class="input-checkbox"></td>
                             <td>{{ ++$index }}</td>
                             <td>
                                 <a>@if(count($product->has_images) > 0)
@@ -102,6 +122,7 @@
             </div>
         </div>
     </div>
+        </form>
     <div class="pagination">
         {{ $products->links("pagination::bootstrap-4") }}
     </div>
@@ -112,4 +133,6 @@
             </div>
         </div>
     @endif
+
+
 @endsection
