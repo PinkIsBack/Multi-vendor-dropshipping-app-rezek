@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-    <title>ZA Dropship</title>
+    <title>Multi Vendors</title>
 
     <link rel="icon" href="{{ asset('assets/images/favicon-32x32.png') }}" type="image/png"/>
 
@@ -33,7 +33,7 @@
                 <img src="{{ asset('assets/images/logo-icon.png')}}" class="logo-icon-2" alt=""/>
             </div>
             <div>
-                <h4 class="logo-text text-nowrap" >ZA Dropship</h4>
+                <h4 class="logo-text text-nowrap" >Multi Vendors</h4>
             </div>
 {{--            <a href="javascript:;" class="toggle-btn ml-auto"> <i class="bx bx-menu"></i>--}}
 {{--            </a>--}}
